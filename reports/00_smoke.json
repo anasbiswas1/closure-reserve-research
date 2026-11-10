@@ -1,0 +1,25 @@
+{
+  "clean_utility_all": true,
+  "clean_mean_spent_TE": 16675.9375,
+  "clean_mean_steps": 6.0,
+  "attack_cost_factor": {
+    "A0": 1.0,
+    "A1": 1.24,
+    "A2": 1.64,
+    "A3": 1.28,
+    "A123": 2.79
+  },
+  "token_counter": "chars/4",
+  "presets": {
+    "w": 100,
+    "m_out": 400,
+    "m_out_c": 300,
+    "k_max": 3,
+    "L": 1200,
+    "H_max": 2,
+    "Q_max": 3,
+    "M": 40,
+    "record_ceiling": 80000,
+    "P": 300
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "python": "3.13.18",
+  "agentdojo": "0.1.35",
+  "pydantic": "2.14.2",
+  "pyyaml": "6.0.3",
+  "pandas": "2.2.3",
+  "git_head": "fd2ea3ec84f87bcb0f7e7ced6ebad43fa85b48bc"
+}

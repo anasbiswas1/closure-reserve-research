@@ -1,0 +1,396 @@
+injection_car_CAR_BER_1_notes:
+  default: ''
+  description: rental notes of CAR-BER-1
+injection_car_CAR_BER_2_notes:
+  default: ''
+  description: rental notes of CAR-BER-2
+injection_car_CAR_BER_3_notes:
+  default: ''
+  description: rental notes of CAR-BER-3
+injection_car_CAR_BOL_1_notes:
+  default: ''
+  description: rental notes of CAR-BOL-1
+injection_car_CAR_BOL_2_notes:
+  default: ''
+  description: rental notes of CAR-BOL-2
+injection_car_CAR_BOL_3_notes:
+  default: ''
+  description: rental notes of CAR-BOL-3
+injection_car_CAR_DUB_1_notes:
+  default: ''
+  description: rental notes of CAR-DUB-1
+injection_car_CAR_DUB_2_notes:
+  default: ''
+  description: rental notes of CAR-DUB-2
+injection_car_CAR_DUB_3_notes:
+  default: ''
+  description: rental notes of CAR-DUB-3
+injection_car_CAR_GHE_1_notes:
+  default: ''
+  description: rental notes of CAR-GHE-1
+injection_car_CAR_GHE_2_notes:
+  default: ''
+  description: rental notes of CAR-GHE-2
+injection_car_CAR_GHE_3_notes:
+  default: ''
+  description: rental notes of CAR-GHE-3
+injection_car_CAR_KRA_1_notes:
+  default: ''
+  description: rental notes of CAR-KRA-1
+injection_car_CAR_KRA_2_notes:
+  default: ''
+  description: rental notes of CAR-KRA-2
+injection_car_CAR_KRA_3_notes:
+  default: ''
+  description: rental notes of CAR-KRA-3
+injection_car_CAR_LYO_1_notes:
+  default: ''
+  description: rental notes of CAR-LYO-1
+injection_car_CAR_LYO_2_notes:
+  default: ''
+  description: rental notes of CAR-LYO-2
+injection_car_CAR_LYO_3_notes:
+  default: ''
+  description: rental notes of CAR-LYO-3
+injection_car_CAR_POR_1_notes:
+  default: ''
+  description: rental notes of CAR-POR-1
+injection_car_CAR_POR_2_notes:
+  default: ''
+  description: rental notes of CAR-POR-2
+injection_car_CAR_POR_3_notes:
+  default: ''
+  description: rental notes of CAR-POR-3
+injection_car_CAR_PRA_1_notes:
+  default: ''
+  description: rental notes of CAR-PRA-1
+injection_car_CAR_PRA_2_notes:
+  default: ''
+  description: rental notes of CAR-PRA-2
+injection_car_CAR_PRA_3_notes:
+  default: ''
+  description: rental notes of CAR-PRA-3
+injection_car_CAR_SEV_1_notes:
+  default: ''
+  description: rental notes of CAR-SEV-1
+injection_car_CAR_SEV_2_notes:
+  default: ''
+  description: rental notes of CAR-SEV-2
+injection_car_CAR_SEV_3_notes:
+  default: ''
+  description: rental notes of CAR-SEV-3
+injection_car_CAR_TAL_1_notes:
+  default: ''
+  description: rental notes of CAR-TAL-1
+injection_car_CAR_TAL_2_notes:
+  default: ''
+  description: rental notes of CAR-TAL-2
+injection_car_CAR_TAL_3_notes:
+  default: ''
+  description: rental notes of CAR-TAL-3
+injection_car_CAR_VAL_1_notes:
+  default: ''
+  description: rental notes of CAR-VAL-1
+injection_car_CAR_VAL_2_notes:
+  default: ''
+  description: rental notes of CAR-VAL-2
+injection_car_CAR_VAL_3_notes:
+  default: ''
+  description: rental notes of CAR-VAL-3
+injection_car_CAR_VIE_1_notes:
+  default: ''
+  description: rental notes of CAR-VIE-1
+injection_car_CAR_VIE_2_notes:
+  default: ''
+  description: rental notes of CAR-VIE-2
+injection_car_CAR_VIE_3_notes:
+  default: ''
+  description: rental notes of CAR-VIE-3
+injection_hotel_HOT_BER_1_reviews:
+  default: ''
+  description: guest reviews of HOT-BER-1
+injection_hotel_HOT_BER_1_terms:
+  default: ''
+  description: booking terms of HOT-BER-1
+injection_hotel_HOT_BER_2_reviews:
+  default: ''
+  description: guest reviews of HOT-BER-2
+injection_hotel_HOT_BER_2_terms:
+  default: ''
+  description: booking terms of HOT-BER-2
+injection_hotel_HOT_BER_3_reviews:
+  default: ''
+  description: guest reviews of HOT-BER-3
+injection_hotel_HOT_BER_3_terms:
+  default: ''
+  description: booking terms of HOT-BER-3
+injection_hotel_HOT_BOL_1_reviews:
+  default: ''
+  description: guest reviews of HOT-BOL-1
+injection_hotel_HOT_BOL_1_terms:
+  default: ''
+  description: booking terms of HOT-BOL-1
+injection_hotel_HOT_BOL_2_reviews:
+  default: ''
+  description: guest reviews of HOT-BOL-2
+injection_hotel_HOT_BOL_2_terms:
+  default: ''
+  description: booking terms of HOT-BOL-2
+injection_hotel_HOT_BOL_3_reviews:
+  default: ''
+  description: guest reviews of HOT-BOL-3
+injection_hotel_HOT_BOL_3_terms:
+  default: ''
+  description: booking terms of HOT-BOL-3
+injection_hotel_HOT_DUB_1_reviews:
+  default: ''
+  description: guest reviews of HOT-DUB-1
+injection_hotel_HOT_DUB_1_terms:
+  default: ''
+  description: booking terms of HOT-DUB-1
+injection_hotel_HOT_DUB_2_reviews:
+  default: ''
+  description: guest reviews of HOT-DUB-2
+injection_hotel_HOT_DUB_2_terms:
+  default: ''
+  description: booking terms of HOT-DUB-2
+injection_hotel_HOT_DUB_3_reviews:
+  default: ''
+  description: guest reviews of HOT-DUB-3
+injection_hotel_HOT_DUB_3_terms:
+  default: ''
+  description: booking terms of HOT-DUB-3
+injection_hotel_HOT_GHE_1_reviews:
+  default: ''
+  description: guest reviews of HOT-GHE-1
+injection_hotel_HOT_GHE_1_terms:
+  default: ''
+  description: booking terms of HOT-GHE-1
+injection_hotel_HOT_GHE_2_reviews:
+  default: ''
+  description: guest reviews of HOT-GHE-2
+injection_hotel_HOT_GHE_2_terms:
+  default: ''
+  description: booking terms of HOT-GHE-2
+injection_hotel_HOT_GHE_3_reviews:
+  default: ''
+  description: guest reviews of HOT-GHE-3
+injection_hotel_HOT_GHE_3_terms:
+  default: ''
+  description: booking terms of HOT-GHE-3
+injection_hotel_HOT_KRA_1_reviews:
+  default: ''
+  description: guest reviews of HOT-KRA-1
+injection_hotel_HOT_KRA_1_terms:
+  default: ''
+  description: booking terms of HOT-KRA-1
+injection_hotel_HOT_KRA_2_reviews:
+  default: ''
+  description: guest reviews of HOT-KRA-2
+injection_hotel_HOT_KRA_2_terms:
+  default: ''
+  description: booking terms of HOT-KRA-2
+injection_hotel_HOT_KRA_3_reviews:
+  default: ''
+  description: guest reviews of HOT-KRA-3
+injection_hotel_HOT_KRA_3_terms:
+  default: ''
+  description: booking terms of HOT-KRA-3
+injection_hotel_HOT_LYO_1_reviews:
+  default: ''
+  description: guest reviews of HOT-LYO-1
+injection_hotel_HOT_LYO_1_terms:
+  default: ''
+  description: booking terms of HOT-LYO-1
+injection_hotel_HOT_LYO_2_reviews:
+  default: ''
+  description: guest reviews of HOT-LYO-2
+injection_hotel_HOT_LYO_2_terms:
+  default: ''
+  description: booking terms of HOT-LYO-2
+injection_hotel_HOT_LYO_3_reviews:
+  default: ''
+  description: guest reviews of HOT-LYO-3
+injection_hotel_HOT_LYO_3_terms:
+  default: ''
+  description: booking terms of HOT-LYO-3
+injection_hotel_HOT_POR_1_reviews:
+  default: ''
+  description: guest reviews of HOT-POR-1
+injection_hotel_HOT_POR_1_terms:
+  default: ''
+  description: booking terms of HOT-POR-1
+injection_hotel_HOT_POR_2_reviews:
+  default: ''
+  description: guest reviews of HOT-POR-2
+injection_hotel_HOT_POR_2_terms:
+  default: ''
+  description: booking terms of HOT-POR-2
+injection_hotel_HOT_POR_3_reviews:
+  default: ''
+  description: guest reviews of HOT-POR-3
+injection_hotel_HOT_POR_3_terms:
+  default: ''
+  description: booking terms of HOT-POR-3
+injection_hotel_HOT_PRA_1_reviews:
+  default: ''
+  description: guest reviews of HOT-PRA-1
+injection_hotel_HOT_PRA_1_terms:
+  default: ''
+  description: booking terms of HOT-PRA-1
+injection_hotel_HOT_PRA_2_reviews:
+  default: ''
+  description: guest reviews of HOT-PRA-2
+injection_hotel_HOT_PRA_2_terms:
+  default: ''
+  description: booking terms of HOT-PRA-2
+injection_hotel_HOT_PRA_3_reviews:
+  default: ''
+  description: guest reviews of HOT-PRA-3
+injection_hotel_HOT_PRA_3_terms:
+  default: ''
+  description: booking terms of HOT-PRA-3
+injection_hotel_HOT_SEV_1_reviews:
+  default: ''
+  description: guest reviews of HOT-SEV-1
+injection_hotel_HOT_SEV_1_terms:
+  default: ''
+  description: booking terms of HOT-SEV-1
+injection_hotel_HOT_SEV_2_reviews:
+  default: ''
+  description: guest reviews of HOT-SEV-2
+injection_hotel_HOT_SEV_2_terms:
+  default: ''
+  description: booking terms of HOT-SEV-2
+injection_hotel_HOT_SEV_3_reviews:
+  default: ''
+  description: guest reviews of HOT-SEV-3
+injection_hotel_HOT_SEV_3_terms:
+  default: ''
+  description: booking terms of HOT-SEV-3
+injection_hotel_HOT_TAL_1_reviews:
+  default: ''
+  description: guest reviews of HOT-TAL-1
+injection_hotel_HOT_TAL_1_terms:
+  default: ''
+  description: booking terms of HOT-TAL-1
+injection_hotel_HOT_TAL_2_reviews:
+  default: ''
+  description: guest reviews of HOT-TAL-2
+injection_hotel_HOT_TAL_2_terms:
+  default: ''
+  description: booking terms of HOT-TAL-2
+injection_hotel_HOT_TAL_3_reviews:
+  default: ''
+  description: guest reviews of HOT-TAL-3
+injection_hotel_HOT_TAL_3_terms:
+  default: ''
+  description: booking terms of HOT-TAL-3
+injection_hotel_HOT_VAL_1_reviews:
+  default: ''
+  description: guest reviews of HOT-VAL-1
+injection_hotel_HOT_VAL_1_terms:
+  default: ''
+  description: booking terms of HOT-VAL-1
+injection_hotel_HOT_VAL_2_reviews:
+  default: ''
+  description: guest reviews of HOT-VAL-2
+injection_hotel_HOT_VAL_2_terms:
+  default: ''
+  description: booking terms of HOT-VAL-2
+injection_hotel_HOT_VAL_3_reviews:
+  default: ''
+  description: guest reviews of HOT-VAL-3
+injection_hotel_HOT_VAL_3_terms:
+  default: ''
+  description: booking terms of HOT-VAL-3
+injection_hotel_HOT_VIE_1_reviews:
+  default: ''
+  description: guest reviews of HOT-VIE-1
+injection_hotel_HOT_VIE_1_terms:
+  default: ''
+  description: booking terms of HOT-VIE-1
+injection_hotel_HOT_VIE_2_reviews:
+  default: ''
+  description: guest reviews of HOT-VIE-2
+injection_hotel_HOT_VIE_2_terms:
+  default: ''
+  description: booking terms of HOT-VIE-2
+injection_hotel_HOT_VIE_3_reviews:
+  default: ''
+  description: guest reviews of HOT-VIE-3
+injection_hotel_HOT_VIE_3_terms:
+  default: ''
+  description: booking terms of HOT-VIE-3
+injection_msg_MSG_INV_01:
+  default: ''
+  description: body tail of MSG-INV-01
+injection_msg_MSG_INV_02:
+  default: ''
+  description: body tail of MSG-INV-02
+injection_msg_MSG_INV_03:
+  default: ''
+  description: body tail of MSG-INV-03
+injection_msg_MSG_INV_04:
+  default: ''
+  description: body tail of MSG-INV-04
+injection_msg_MSG_INV_05:
+  default: ''
+  description: body tail of MSG-INV-05
+injection_msg_MSG_INV_06:
+  default: ''
+  description: body tail of MSG-INV-06
+injection_msg_MSG_INV_07:
+  default: ''
+  description: body tail of MSG-INV-07
+injection_msg_MSG_INV_08:
+  default: ''
+  description: body tail of MSG-INV-08
+injection_msg_MSG_INV_09:
+  default: ''
+  description: body tail of MSG-INV-09
+injection_msg_MSG_INV_10:
+  default: ''
+  description: body tail of MSG-INV-10
+injection_msg_MSG_INV_11:
+  default: ''
+  description: body tail of MSG-INV-11
+injection_msg_MSG_INV_12:
+  default: ''
+  description: body tail of MSG-INV-12
+injection_msg_MSG_TRIP_01:
+  default: ''
+  description: body tail of MSG-TRIP-01
+injection_msg_MSG_TRIP_02:
+  default: ''
+  description: body tail of MSG-TRIP-02
+injection_msg_MSG_TRIP_03:
+  default: ''
+  description: body tail of MSG-TRIP-03
+injection_msg_MSG_TRIP_04:
+  default: ''
+  description: body tail of MSG-TRIP-04
+injection_msg_MSG_TRIP_05:
+  default: ''
+  description: body tail of MSG-TRIP-05
+injection_msg_MSG_TRIP_06:
+  default: ''
+  description: body tail of MSG-TRIP-06
+injection_msg_MSG_TRIP_07:
+  default: ''
+  description: body tail of MSG-TRIP-07
+injection_msg_MSG_TRIP_08:
+  default: ''
+  description: body tail of MSG-TRIP-08
+injection_msg_MSG_TRIP_09:
+  default: ''
+  description: body tail of MSG-TRIP-09
+injection_msg_MSG_TRIP_10:
+  default: ''
+  description: body tail of MSG-TRIP-10
+injection_msg_MSG_TRIP_11:
+  default: ''
+  description: body tail of MSG-TRIP-11
+injection_msg_MSG_TRIP_12:
+  default: ''
+  description: body tail of MSG-TRIP-12

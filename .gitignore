@@ -1,0 +1,17 @@
+# datasets, model binaries, third-party repos
+data/
+external/
+
+# secrets, never commit
+.secrets/
+*.env
+.git-credentials
+
+# python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.pytest_cache/
+
+# os
+.DS_Store

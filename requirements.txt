@@ -1,0 +1,10 @@
+agentdojo==0.1.35
+vllm
+openai
+pyyaml
+pandas
+numpy
+scipy
+matplotlib
+pytest
+nbformat

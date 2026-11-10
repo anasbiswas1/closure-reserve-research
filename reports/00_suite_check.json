@@ -1,0 +1,26 @@
+{
+  "n_user_tasks": 48,
+  "n_injection_tasks": 1,
+  "n_data_records": 96,
+  "n_placeholders": 132,
+  "ground_truth_ok": true,
+  "ground_truth_failures": {},
+  "injection_task_ok": {
+    "injection_task_0": true
+  },
+  "not_injectable": [],
+  "candidates_per_family": {
+    "F1": [
+      3
+    ],
+    "F2": [
+      3
+    ],
+    "F3": [
+      1
+    ],
+    "F4": [
+      4
+    ]
+  }
+}
