@@ -1,0 +1,32 @@
+{
+  "model": "qwen7b",
+  "clean_utility": 0.25,
+  "C4_per_attack": {
+    "A1": false,
+    "A2": false,
+    "A3": false,
+    "A123": false
+  },
+  "C4": false,
+  "cost_factor": {
+    "A0": 1.0,
+    "A1": 1.13,
+    "A2": 1.09,
+    "A3": 1.11,
+    "A123": 1.14
+  },
+  "extra_steps": {
+    "A0": 0.0,
+    "A1": -0.17,
+    "A2": -0.08,
+    "A3": 0.0,
+    "A123": -0.08
+  },
+  "ended_by_ceiling_pct": {
+    "A0": 0.0,
+    "A1": 0.0,
+    "A2": 0.0,
+    "A3": 0.0,
+    "A123": 0.0
+  }
+}
