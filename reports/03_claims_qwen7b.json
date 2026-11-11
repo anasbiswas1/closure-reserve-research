@@ -40,6 +40,18 @@
         "n": 128,
         "holds": true
       },
+      "delta=0.05,A5": {
+        "cut_off": 0.0,
+        "ci_lo": 0.0,
+        "n": 128,
+        "holds": true
+      },
+      "delta=0.05,A6": {
+        "cut_off": 0.0,
+        "ci_lo": 0.0,
+        "n": 128,
+        "holds": true
+      },
       "delta=0.1,A0": {
         "cut_off": 0.0,
         "ci_lo": 0.0,
@@ -69,14 +81,32 @@
         "ci_lo": 0.0,
         "n": 128,
         "holds": true
+      },
+      "delta=0.1,A5": {
+        "cut_off": 0.0,
+        "ci_lo": 0.0,
+        "n": 128,
+        "holds": true
+      },
+      "delta=0.1,A6": {
+        "cut_off": 0.0,
+        "ci_lo": 0.0,
+        "n": 128,
+        "holds": true
       }
     }
   },
-  "C2": {
-    "holds": false,
+  "C2_preregistered": {
+    "holds": true,
     "reserveguard_apo_zero": true,
     "B0_or_B3_apo_positive": true,
-    "B1_10pct_apo_positive_A123_075": false
+    "B1_10pct_apo_positive_A123_075": true
+  },
+  "C2_amended_after_first_replay": {
+    "holds": true,
+    "reserveguard_apo_zero": true,
+    "B0_or_B3_apo_positive": true,
+    "B1_10pct_apo_positive_at_1.0x_A0_or_A123": true
   },
   "C3": {
     "holds_core": false,
@@ -84,11 +114,11 @@
     "cells": {
       "A0": {
         "within_5_of_oracle": false,
-        "ge_best_fixed_fraction": false,
+        "ge_best_fixed_fraction": true,
         "gt_worst_case_by_5": false
       },
       "A123": {
-        "within_5_of_oracle": true,
+        "within_5_of_oracle": false,
         "ge_best_fixed_fraction": false,
         "gt_worst_case_by_5": false
       }
@@ -97,57 +127,57 @@
   "mcnemar_vs_reserveguard_A123_1.0x": {
     "B0_fixed_cap": {
       "b_only": 0,
-      "a_only": 10,
-      "discordant": 10,
-      "p_exact": 0.001953125
+      "a_only": 1,
+      "discordant": 1,
+      "p_exact": 1.0
     },
     "B1_fixed_10pct": {
-      "b_only": 0,
-      "a_only": 8,
-      "discordant": 8,
-      "p_exact": 0.0078125
-    },
-    "B1_fixed_15pct": {
-      "b_only": 1,
-      "a_only": 8,
-      "discordant": 9,
-      "p_exact": 0.0390625
-    },
-    "B1_fixed_20pct": {
-      "b_only": 1,
-      "a_only": 8,
-      "discordant": 9,
-      "p_exact": 0.0390625
-    },
-    "B1_fixed_30pct": {
       "b_only": 1,
       "a_only": 0,
       "discordant": 1,
       "p_exact": 1.0
     },
-    "B2_self_estimate": {
+    "B1_fixed_15pct": {
+      "b_only": 1,
+      "a_only": 0,
+      "discordant": 1,
+      "p_exact": 1.0
+    },
+    "B1_fixed_20pct": {
+      "b_only": 1,
+      "a_only": 0,
+      "discordant": 1,
+      "p_exact": 1.0
+    },
+    "B1_fixed_30pct": {
       "b_only": 0,
-      "a_only": 7,
-      "discordant": 7,
-      "p_exact": 0.015625
+      "a_only": 3,
+      "discordant": 3,
+      "p_exact": 0.25
+    },
+    "B2_self_estimate": {
+      "b_only": 1,
+      "a_only": 0,
+      "discordant": 1,
+      "p_exact": 1.0
     },
     "B3_progress_same_ceiling": {
-      "b_only": 0,
-      "a_only": 8,
-      "discordant": 8,
-      "p_exact": 0.0078125
+      "b_only": 1,
+      "a_only": 0,
+      "discordant": 1,
+      "p_exact": 1.0
     },
     "B3_progress_same_mean": {
       "b_only": 1,
-      "a_only": 8,
-      "discordant": 9,
-      "p_exact": 0.0390625
+      "a_only": 0,
+      "discordant": 1,
+      "p_exact": 1.0
     },
     "B4_oracle": {
       "b_only": 0,
-      "a_only": 0,
-      "discordant": 0,
-      "p_exact": 1.0
+      "a_only": 3,
+      "discordant": 3,
+      "p_exact": 0.25
     },
     "B5_worst_case": {
       "b_only": 0,
