@@ -27,22 +27,18 @@ def restore_env(suite, user_task, attack_name: str | None, executed: list[dict],
 
 
 def cut_points(rec: dict) -> list[int]:
-    """Cuts are 'before executing step t's calls', t = 1..n. If the run did not end with a final answer (it hit a
-    ceiling or the iteration cap), the state after the last recorded step is an extra cut n+1."""
-    n = len(rec["steps"])
-    cuts = list(range(1, n + 1))
-    if rec["ledger"]["end_reason"] != "finished":
-        cuts.append(n + 1)
-    return cuts
+    """Cuts are 'after executing step t's calls, before model call t+1', t = 0..n. t = 0 is the state before any
+    tool ran (only the fixed cap can land there, by overspending on its first call); t = n is the state after the
+    last recorded step, which is the natural end when that step proposed no call."""
+    return list(range(0, len(rec["steps"]) + 1))
 
 
-def state_at_cut(rec: dict, t: int) -> tuple[list[dict], list[dict], int]:
-    """Executed calls before the cut, queued (proposed, not executed) calls at the cut, open holds before."""
+def state_at_cut(rec: dict, t: int) -> tuple[list[dict], int]:
+    """Executed calls up to and including step t, and the open holds after them."""
     steps = rec["steps"]
-    executed = [c for s in steps[: t - 1] for c in s["tool_calls"]]
-    queued = steps[t - 1]["tool_calls"] if t <= len(steps) else []
-    h_before = steps[t - 2]["h"] if t >= 2 else 0
-    return executed, queued, h_before
+    executed = [c for s in steps[:t] for c in s["tool_calls"]]
+    h = steps[t - 1]["h"] if t >= 1 else 0
+    return executed, h
 
 
 # ----------------------------------------------------------------------------- closure table
@@ -52,10 +48,10 @@ def closure_table_for_record(rec: dict, suite, runner: cl.ClosureRunner, probe_p
     attack = None if rec["attack"] == "A0" else rec["attack"]
     rows = []
     for t in cut_points(rec):
-        executed, queued, h_before = state_at_cut(rec, t)
+        executed, h_rec = state_at_cut(rec, t)
         for kind in list(kinds) + ["draft", "stop"]:
             env = restore_env(suite, task, attack, executed, probe_pipeline)
-            sigma = cl.build_snapshot(env, task.PROMPT, executed, queued, presets)
+            sigma = cl.build_snapshot(env, task.PROMPT, executed, presets)
             h, q = cl.cell_of(sigma)
             utility_before = runner._utility(task, env)
             res = runner.run(kind, sigma, env, task, None)
@@ -83,10 +79,11 @@ def tables_version(tables_root: Path, model_tag: str) -> str | None:
         try:
             with gzip.open(p, "rt") as f:
                 d = json.load(f)
-            versions.add(d.get("records_version") if isinstance(d, dict) else None)
+            versions.add((d.get("records_version"), d.get("closure_version")) if isinstance(d, dict) else None)
         except Exception:
             versions.add(None)
-    return versions.pop() if len(versions) == 1 else None
+    v = versions.pop() if len(versions) == 1 else None
+    return v
 
 
 def build_closure_tables(suite, runner, probe_pipeline, presets, records_root: Path, tables_root: Path,
@@ -105,7 +102,7 @@ def build_closure_tables(suite, runner, probe_pipeline, presets, records_root: P
             if out.exists() and not force_rerun:
                 with gzip.open(out, "rt") as f:
                     d = json.load(f)
-                if isinstance(d, dict) and d.get("records_version") == rec_ver:
+                if isinstance(d, dict) and d.get("records_version") == rec_ver and d.get("closure_version") == config.CLOSURE_VERSION:
                     rows += d["rows"]; n_reused += 1
                     continue
             rec = load_record(record_path(records_root, model_tag, cond, tid))
@@ -113,61 +110,113 @@ def build_closure_tables(suite, runner, probe_pipeline, presets, records_root: P
             r = closure_table_for_record(rec, suite, runner, probe_pipeline, presets)
             out.parent.mkdir(parents=True, exist_ok=True)
             with gzip.open(out, "wt") as f:
-                json.dump({"records_version": rec_ver, "rows": r}, f, default=str)
+                json.dump({"records_version": rec_ver, "closure_version": config.CLOSURE_VERSION, "rows": r}, f, default=str)
             rows += r; n_new += 1
             v = [x for x in r if x["kind"] == "verified"]
             log(f"{cond} {tid}: {len(v)} cuts, verified cost mean={sum(x['cost'] for x in v)/max(1,len(v)):.0f}, "
                 f"cut_off={sum(1 for x in v if json.loads(x['detail'])['cut_off'])}")
-    log(f"closure tables: {n_new} built now, {n_reused} reused (records version {rec_ver})")
+    log(f"closure tables: {n_new} built now, {n_reused} reused (records version {rec_ver}, closure version {config.CLOSURE_VERSION})")
     return pd.DataFrame(rows)
 
 
 # ----------------------------------------------------------------------------- policy replay
-def step_cap(step: dict, k: int, presets: dict) -> int:
-    return step["prompt_tokens"] + step["completion_tokens"] + k * presets["L"] + presets["m_out"] + presets["w"] * k
+def exact_cap(next_step: dict, presets: dict) -> int:
+    """Equation (2), exact form: the host tokenises the prompt it is about to send (recorded as the next step's
+    prompt tokens), bounds the output by m_out and the calls of that turn by k_max."""
+    return next_step["prompt_tokens"] + presets["m_out"] + presets["w"] * presets["k_max"]
 
 
 def replay(rec: dict, policy, B: int, presets: dict, table: dict, chooser) -> dict:
-    """Walk the recorded steps under a policy at budget B. `table` maps cut t -> {kind -> closure detail dict}.
-    `chooser(kinds_available, h, q, remaining, table_t)` returns the closure kind the runtime runs at the cut.
-    Returns the run's outcome."""
+    """Walk the recorded steps under a policy at budget B. The first model call always happens. After each model
+    call its proposed calls are executed (w each; the gate at the previous point reserved for them), then the
+    policy decides whether the next model call may be made, knowing the exact size of the next prompt. `table`
+    maps cut t -> {kind -> closure detail}; `chooser(kinds, h, q, remaining, table_t)` picks the closure kind."""
     steps = rec["steps"]
+    n = len(steps)
     S = 0
     cut = None
     policy.bind(rec)
     for t, step in enumerate(steps, start=1):
-        S += step["prompt_tokens"] + step["completion_tokens"]
+        S += step["prompt_tokens"] + step["completion_tokens"]          # model call t
+        if getattr(policy, "hard_cap", False) and S >= B:              # fixed cap: the overspending call is the cut
+            cut = t - 1
+            break
         k = len(step["tool_calls"])
+        if k == 0:                                                     # final answer: natural end
+            cut = t
+            break
+        S += presets["w"] * k                                          # execute the proposed calls
+        if t == n:                                                     # the record ended here (ceiling or cap)
+            cut = t
+            break
+        nxt = steps[t]
         remaining = B - S
-        if k == 0:                       # the agent gave its final answer: natural end
+        state = {"t": t, "k": k, "h": step["h"], "milestones": step["milestones"], "gt_len": rec["gt_len"],
+                 "spent": S, "B": B, "next_step": nxt, "next_k": len(nxt["tool_calls"])}
+        if not policy.allow(remaining, exact_cap(nxt, presets), state):
             cut = t
             break
-        state = {"t": t, "k": k, "h_before": steps[t - 2]["h"] if t >= 2 else 0, "h_after": step["h"],
-                 "q": sum(1 for c in step["tool_calls"] if c["function"].split("_REFUSED_")[0] in config.CONSEQUENTIAL),
-                 "milestones": step["milestones"], "gt_len": rec["gt_len"], "spent": S, "B": B,
-                 "next_step": steps[t] if t < len(steps) else None}
-        if not policy.allow(remaining, step_cap(step, k, presets), state):
-            cut = t
-            break
-        S += presets["w"] * k
-    if cut is None:                      # record exhausted without a final answer (ceiling or cap in the record)
-        cut = len(steps) + 1
+    if cut is None:
+        cut = n
     remaining = max(0, B - S)
-    table_t = table.get(cut) or table.get(max(table))
-    entry = next(iter(table_t.values()))
-    h, q = entry["open_holds_before"], len([c for c in (steps[cut - 1]["tool_calls"] if cut <= len(steps) else [])
-                                            if c["function"].split("_REFUSED_")[0] in config.CONSEQUENTIAL])
-    kind = chooser(list(table_t), h, q, remaining, table_t)
+    table_t = table[cut]
+    h = table_t["settle"]["open_holds_before"]
+    kind = chooser(list(table_t), h, 0, remaining, table_t)
     sim = cl.simulate_cut(table_t[kind], remaining)
-    done_kind = table_t[kind]
-    utility = bool(done_kind["utility_after"]) if not sim["cut_off"] else bool(table_t[kind].get("utility_before", False))
+    utility = bool(table_t[kind]["utility_after"]) if not sim["cut_off"] else bool(table_t[kind].get("utility_before", False))
     oracle_ok = any(table_t[k_]["cost"] <= remaining for k_ in ("verified", "settle") if k_ in table_t)
-    return {"policy": policy.name, "B": B, "cut": cut, "end": "natural" if cut <= len(steps) and len(steps[cut - 1]["tool_calls"]) == 0 else "policy",
+    natural = cut >= 1 and cut <= n and len(steps[cut - 1]["tool_calls"]) == 0
+    return {"policy": policy.name, "B": B, "cut": cut, "end": "natural" if natural else "policy",
             "remaining_at_cut": remaining, "kind": kind, "cut_off": sim["cut_off"], "open_holds_after": sim["open_holds_after"],
             "apo": sim["open_holds_after"] > 0, "utility": utility, "spent_total": S + sim["spent"],
             "budget_used": (S + sim["spent"]) / B, "dos": bool(sim["cut_off"] and oracle_ok and not utility),
-            "partial": bool(not utility and not sim["cut_off"] and kind == "verified" and sim["open_holds_after"] == 0),
-            "h": h, "q": q}
+            "partial": bool(not utility and not sim["cut_off"] and kind == "verified" and sim["open_holds_after"] == 0 and h > 0),
+            "h": h, "q": 0}
+
+
+def oracle_best(rec: dict, B: int, presets: dict, table: dict, name: str = "B4_oracle") -> dict:
+    """B4: the best outcome any cut could reach at budget B with full knowledge: over every cut t and every closure
+    kind whose realised cost fits the budget left, the one with the highest completion, then no open hold, then the
+    most useful kind, then the lowest spend. An upper bound on every policy, not a policy."""
+    steps = rec["steps"]
+    n = len(steps)
+    spend_after = []            # spend after executing step t's calls (t = 1..n); t = 0 has spend 0
+    S = 0
+    for step in steps:
+        S += step["prompt_tokens"] + step["completion_tokens"]
+        S += presets["w"] * len(step["tool_calls"])
+        spend_after.append(S)
+    best = None
+    for t in range(0, n + 1):
+        S_t = 0 if t == 0 else spend_after[t - 1]
+        if S_t > B:
+            break
+        if t >= 1 and t < n and len(steps[t - 1]["tool_calls"]) == 0:
+            continue                                                   # the run ended naturally before this point
+        remaining = B - S_t
+        table_t = table.get(t)
+        if table_t is None:
+            continue
+        for kind in ("verified", "settle", "draft", "stop"):
+            d = table_t.get(kind)
+            if d is None or d["cost"] > remaining:
+                continue
+            utility = bool(d["utility_after"])
+            apo = d["open_holds_after"] > 0
+            key = (utility, not apo, cl.USEFULNESS[kind], -(S_t + d["cost"]))
+            if best is None or key > best[0]:
+                best = (key, t, kind, remaining, d, S_t)
+    if best is None:                                                  # not even the first call fits: nothing happens
+        return {"policy": name, "B": B, "cut": 0, "end": "policy", "remaining_at_cut": B, "kind": "stop", "cut_off": False,
+                "open_holds_after": 0, "apo": False, "utility": False, "spent_total": 0, "budget_used": 0.0, "dos": False,
+                "partial": False, "h": 0, "q": 0}
+    _, t, kind, remaining, d, S_t = best
+    natural = 1 <= t <= n and len(steps[t - 1]["tool_calls"]) == 0
+    return {"policy": name, "B": B, "cut": t, "end": "natural" if natural else "policy", "remaining_at_cut": remaining,
+            "kind": kind, "cut_off": False, "open_holds_after": d["open_holds_after"], "apo": d["open_holds_after"] > 0,
+            "utility": bool(d["utility_after"]), "spent_total": S_t + d["cost"], "budget_used": (S_t + d["cost"]) / B,
+            "dos": False, "partial": bool(not d["utility_after"] and kind == "verified" and d["open_holds_after"] == 0
+                                          and d["open_holds_before"] > 0), "h": d["open_holds_before"], "q": 0}
 
 
 def table_by_cut(rows: list[dict]) -> dict:

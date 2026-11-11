@@ -44,22 +44,26 @@ def test_closure_tables_reserves_coverage_and_replay(tmp_path):
     assert len(v) > 0 and not any(__import__("json").loads(d)["cut_off"] for d in v.detail)   # unconstrained closures finish
     assert (tab[tab.kind == "settle"].cost == tab[tab.kind == "settle"].h * P["w"]).all()       # settle is exact
     smax = rs.sigma_max_tokens(COUNTER, P, SUITE)
-    reserves = rs.reserves_from_table(v[v.condition == "A0"], [0.5], P, COUNTER, smax)      # delta 0.5 so tiny cells calibrate
+    reserves = rs.reserves_from_table(v, [0.5], P, COUNTER, smax)      # delta 0.5 so tiny cells calibrate; all conditions
     for cell in reserves["0.5"]["verified"].values():
         assert cell["R"] <= cell["bound"]
     bounds = rs.reserves_from_table(v, [0.0], P, COUNTER, smax)
-    assert all(c["worst_case"] for c in bounds["0.0"]["verified"].values())
+    assert all(c["worst_case"] for k, c in bounds["0.0"]["verified"].items() if not k.startswith("0,"))
+    assert all(c["R"] == 0 for k, c in bounds["0.0"]["verified"].items() if k.startswith("0,"))
     cov = rs.coverage(v, reserves, 0.5)
-    assert (cov.coverage >= 0.5).all()
+    assert len(cov) and (cov.coverage >= 0.5).all()
     med = df[df.condition == "A0"].spent.median()
     for cond in ("A0", "A123"):
         for tid in IDS[:2]:
             rec = record.load_record(record.record_path(tmp_path / "records", "scripted", cond, tid)); rec["condition"] = cond
             table = rp.table_by_cut(tab[(tab.task_id == tid) & (tab.condition == cond)].to_dict("records"))
             for B in (int(0.5 * med), int(1.5 * med)):
+                o = rp.oracle_best(rec, B, P, table)
+                assert not o["cut_off"] and o["spent_total"] <= B
                 for p_ in (pol.FixedCap(), pol.FixedFraction(0.2), pol.ProgressAuthorized(), pol.WorstCase(bounds),
-                           pol.ReserveGuard(reserves, 0.5), pol.Oracle(table)):
+                           pol.ReserveGuard(reserves, 0.5)):
                     r = rp.replay(rec, p_, B, P, table, p_.chooser)
                     assert r["spent_total"] >= 0 and r["kind"] in cl.KINDS
                     if p_.name.startswith("ReserveGuard") or p_.name == "B5_worst_case":
                         assert not r["cut_off"] or r["kind"] == "verified"     # the safety classes are exact
+                        assert int(r["utility"]) <= int(o["utility"]) or (r["utility"] and not o["utility"]) is False

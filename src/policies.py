@@ -26,8 +26,10 @@ class Policy:
 
 
 class FixedCap(Policy):
-    """B0: continue while any budget is left; a step that overspends is the cut (DoW fixed-cap semantics)."""
+    """B0: continue while any budget is left; the model call that overspends is the cut and its proposed calls are
+    not executed (DoW fixed-cap semantics: subsequent calls stop, the triggering turn is not capped)."""
     name = "B0_fixed_cap"
+    hard_cap = True
 
     def allow(self, remaining, cap, state):
         return remaining > 0
@@ -76,33 +78,7 @@ class ProgressAuthorized(Policy):
         return state["spent"] < ceiling
 
 
-class Oracle(Policy):
-    """B4: knows the realised closure cost of every future cut; the upper bound at zero cut-offs."""
-    name = "B4_oracle"
-
-    def __init__(self, table: dict):
-        self.table = table      # cut t -> {kind -> detail}
-
-    def allow(self, remaining, cap, state):
-        nxt = state["next_step"]
-        t_next = state["t"] + 1
-        if nxt is None:
-            return True
-        # budget left after executing this step's calls and making the next model call, exactly
-        left = remaining - state["k"] * self.rec["presets"]["w"] - nxt["prompt_tokens"] - nxt["completion_tokens"]
-        tab = self.table.get(t_next)
-        if tab is None:
-            return True
-        need = min(tab[k]["cost"] for k in ("verified", "settle") if k in tab) if (tab["verified"]["open_holds_before"] > 0 or state["q"] > 0) else 0
-        return left >= need
-
-    def chooser(self, kinds, h, q, remaining, table_t):
-        for k in ("verified", "settle", "draft", "stop"):
-            if k in table_t and table_t[k]["cost"] <= remaining:
-                if k in ("draft", "stop") and h > 0 and "settle" in table_t and table_t["settle"]["cost"] <= remaining:
-                    return "settle"
-                return k
-        return "stop"
+# B4, the oracle, is not a gate: it is computed by replay.oracle_best as the best reachable outcome of any cut.
 
 
 class WorstCase(Policy):
@@ -116,11 +92,15 @@ class WorstCase(Policy):
         return rs.lookup(self.bounds, 0.0, kind, h, q)
 
     def allow(self, remaining, cap, state):
-        return remaining - cap >= self._R(cl.min_kind(state["h_after"]), state["h_after"], 0)
+        # after the next call and its (at most k_max) tool calls, the holds that may be open are bounded by H_max
+        h_next = min(state["h"] + self.rec["presets"]["k_max"], self.rec["presets"]["H_max"])
+        return remaining - cap >= self._R(cl.min_kind(h_next), h_next, 0)
 
     def chooser(self, kinds, h, q, remaining, table_t):
         for k in ("verified", "settle", "draft", "stop"):
             if k in table_t and self._R(k, h, q) <= remaining:
+                if k in ("draft", "stop") and h > 0:
+                    return "settle" if self._R("settle", h, 0) <= remaining else "stop"
                 return k
         return "stop"
 

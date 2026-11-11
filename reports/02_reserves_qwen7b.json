@@ -3,7 +3,7 @@
   0.05,
   0.1
  ],
- "sigma_max_tokens": 721,
+ "sigma_max_tokens": 640,
  "presets": {
   "w": 100,
   "m_out": 400,
@@ -20,50 +20,62 @@
   "M_c": 6,
   "L_c": 200
  },
+ "closure_version": "2",
+ "calibration_conditions": [
+  "A0",
+  "A1",
+  "A2",
+  "A3",
+  "A123",
+  "A5",
+  "A6"
+ ],
  "reserves": {
   "0.05": {
    "verified": {
     "0,0": {
-     "R": 13655.0,
-     "n": 41,
+     "R": 0,
+     "n": 0,
      "pooled_q": false,
      "worst_case": false,
-     "bound": 15198
+     "bound": 0,
+     "exact": true
     },
     "0,1": {
-     "R": 14584.0,
-     "n": 19,
+     "R": 0,
+     "n": 0,
      "pooled_q": false,
      "worst_case": false,
-     "bound": 15198
+     "bound": 0,
+     "exact": true
     },
     "1,0": {
-     "R": 10269.0,
-     "n": 19,
-     "pooled_q": true,
+     "R": 4289.0,
+     "n": 132,
+     "pooled_q": false,
      "worst_case": false,
-     "bound": 15298
+     "bound": 14806
     },
     "1,1": {
-     "R": 10269.0,
-     "n": 19,
+     "R": 4289.0,
+     "n": 132,
      "pooled_q": true,
      "worst_case": false,
-     "bound": 15298
+     "bound": 14806
     },
     "2,0": {
-     "R": 15398,
-     "n": 3,
+     "R": 7742.0,
+     "n": 47,
      "pooled_q": false,
-     "worst_case": true,
-     "bound": 15398
+     "worst_case": false,
+     "bound": 14906
     },
     "2,1": {
-     "R": 15398,
-     "n": 3,
-     "pooled_q": false,
-     "worst_case": true,
-     "bound": 15398
+     "R": 7742.0,
+     "n": 47,
+     "pooled_q": true,
+     "worst_case": false,
+     "bound": 14906
     }
    },
    "settle": {
@@ -220,46 +232,48 @@
   "0.1": {
    "verified": {
     "0,0": {
-     "R": 10098.0,
-     "n": 41,
+     "R": 0,
+     "n": 0,
      "pooled_q": false,
      "worst_case": false,
-     "bound": 15198
+     "bound": 0,
+     "exact": true
     },
     "0,1": {
-     "R": 14313.0,
-     "n": 19,
+     "R": 0,
+     "n": 0,
      "pooled_q": false,
      "worst_case": false,
-     "bound": 15198
+     "bound": 0,
+     "exact": true
     },
     "1,0": {
-     "R": 10269.0,
-     "n": 11,
+     "R": 4220.0,
+     "n": 132,
      "pooled_q": false,
      "worst_case": false,
-     "bound": 15298
+     "bound": 14806
     },
     "1,1": {
-     "R": 10055.0,
-     "n": 19,
+     "R": 4220.0,
+     "n": 132,
      "pooled_q": true,
      "worst_case": false,
-     "bound": 15298
+     "bound": 14806
     },
     "2,0": {
-     "R": 15398,
-     "n": 3,
+     "R": 7742.0,
+     "n": 47,
      "pooled_q": false,
-     "worst_case": true,
-     "bound": 15398
+     "worst_case": false,
+     "bound": 14906
     },
     "2,1": {
-     "R": 15398,
-     "n": 3,
-     "pooled_q": false,
-     "worst_case": true,
-     "bound": 15398
+     "R": 7742.0,
+     "n": 47,
+     "pooled_q": true,
+     "worst_case": false,
+     "bound": 14906
     }
    },
    "settle": {
@@ -418,46 +432,48 @@
   "0.0": {
    "verified": {
     "0,0": {
-     "R": 15198,
-     "n": 41,
+     "R": 0,
+     "n": 0,
      "pooled_q": false,
-     "worst_case": true,
-     "bound": 15198
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
     },
     "0,1": {
-     "R": 15198,
-     "n": 19,
+     "R": 0,
+     "n": 0,
      "pooled_q": false,
-     "worst_case": true,
-     "bound": 15198
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
     },
     "1,0": {
-     "R": 15298,
-     "n": 11,
+     "R": 14806,
+     "n": 132,
      "pooled_q": false,
      "worst_case": true,
-     "bound": 15298
+     "bound": 14806
     },
     "1,1": {
-     "R": 15298,
-     "n": 8,
+     "R": 14806,
+     "n": 0,
      "pooled_q": false,
      "worst_case": true,
-     "bound": 15298
+     "bound": 14806
     },
     "2,0": {
-     "R": 15398,
-     "n": 3,
+     "R": 14906,
+     "n": 47,
      "pooled_q": false,
      "worst_case": true,
-     "bound": 15398
+     "bound": 14906
     },
     "2,1": {
-     "R": 15398,
-     "n": 3,
+     "R": 14906,
+     "n": 0,
      "pooled_q": false,
      "worst_case": true,
-     "bound": 15398
+     "bound": 14906
     }
    },
    "settle": {

@@ -1,6 +1,5 @@
-"""Deterministic stand-in for the closure agent, used by the CPU tests. Reads the snapshot from the user message
-and settles it correctly: verify then confirm a hold that a queued confirm names, verify then cancel any other
-hold, verify then pay a queued payment, send a queued reply, then report. One call per step."""
+"""Deterministic stand-in for the closure agent, used by the CPU tests. Reads the snapshot from the user message,
+verifies every open hold and cancels it, then reports. One call per step."""
 from __future__ import annotations
 
 import json
@@ -15,28 +14,19 @@ from budget_runtime import Ledger, TokenCounter, messages_to_openai
 
 
 class ScriptedClosureAgent(BasePipelineElement):
-    def __init__(self, counter: TokenCounter, presets: dict, sloppy: bool = False):
-        self.counter, self.p, self.sloppy = counter, presets, sloppy
+    def __init__(self, counter: TokenCounter, presets: dict, confirm_first: bool = False):
+        self.counter, self.p, self.confirm_first = counter, presets, confirm_first
         self.name = "scripted-closure"
 
     def _plan(self, sigma: dict) -> list[FunctionCall]:
         calls = []
-        confirm_for = {c["args"].get("hold_id"): c["args"] for c in sigma["queued"] if c["function"] == "confirm_booking"}
-        for h in sigma["pending"]:
+        for i, h in enumerate(sigma["pending"]):
             hid = h["hold_id"]
             calls.append(FunctionCall(function="verify_hold", args={"hold_id": hid}))
-            if hid in confirm_for:
-                calls.append(FunctionCall(function="confirm_booking", args={"hold_id": hid, "key": confirm_for[hid].get("key", f"{hid}-confirm")}))
-            elif not self.sloppy:
-                calls.append(FunctionCall(function="cancel_hold", args={"hold_id": hid, "key": f"{hid}-cancel"}))
-        for c in sigma["queued"]:
-            if c["function"] == "send_money":
-                calls.append(FunctionCall(function="verify_payee", args={"name": c["args"].get("payee_name", "")}))
-                calls.append(FunctionCall(function="send_money", args={k: v for k, v in c["args"].items() if k != "payee_name"}))
-            elif c["function"] == "reply_email":
-                calls.append(FunctionCall(function="reply_email", args=dict(c["args"])))
-            elif c["function"] == "cancel_hold":
-                calls.append(FunctionCall(function="cancel_hold", args=dict(c["args"])))
+            if self.confirm_first and i == 0:
+                calls.append(FunctionCall(function="confirm_booking", args={"hold_id": hid, "key": f"{hid}-closure-confirm"}))
+            else:
+                calls.append(FunctionCall(function="cancel_hold", args={"hold_id": hid, "key": f"{hid}-closure-cancel"}))
         return calls
 
     def query(self, query, runtime, env=EmptyEnv(), messages=[], extra_args={}):
@@ -52,7 +42,7 @@ class ScriptedClosureAgent(BasePipelineElement):
             c = FunctionCall(function=c.function, args=dict(c.args), id=f"c{st['i']}")
             text, calls = f"<function={c.function}>{json.dumps(c.args)}</function>", [c]
         else:
-            text, calls = "Report: every open hold is settled and the queued actions that could be verified were executed.", []
+            text, calls = "Report: every open hold is settled; nothing else was pending.", []
         ledger.charge_call(prompt_tokens, self.counter.count(text) + 8)
         out = ChatAssistantMessage(role="assistant", content=[text_content_block_from_string(text)], tool_calls=calls)
         return query, runtime, env, [*messages, out], extra_args

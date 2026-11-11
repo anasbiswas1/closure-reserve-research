@@ -43,7 +43,7 @@ def worst_case_bound(kind: str, h: int, q: int, presets: dict, counter, sigma_ma
     p = dict(presets); p.update(CLOSURE_PRESETS)
     if kind == "settle":
         return h * p["w"]
-    if kind in ("draft", "stop"):
+    if kind in ("draft", "stop") or (kind == "verified" and h == 0):
         return 0
     sys_tokens = counter.count(CLOSURE_SYSTEM.format(M_c=p["M_c"]))
     total = 0
@@ -60,14 +60,11 @@ def sigma_max_tokens(counter, presets: dict, suite) -> int:
     longest = max(t.PROMPT for t in suite.user_tasks.values())
     hold = {"hold_id": "H99", "item_type": "hotel", "item_id": "HOT-XXX-9", "start": "2027-12-31", "end": "2027-12-31",
             "amount": 99999.99}
-    queued = [{"function": "confirm_booking", "args": {"hold_id": "H99", "key": "H99-confirm-" + "x" * 32}},
-              {"function": "send_money", "args": {"payee_id": "P99", "amount": 99999.99, "key": "INV-2027-999-" + "x" * 32,
-                                                  "payee_name": "City Council Tax Department"}},
-              {"function": "reply_email", "args": {"msg_id": "MSG-TRIP-99", "text": "x" * 200}}]
-    done = [{"function": "confirm_booking", "args": {"hold_id": f"H{i}", "key": f"H{i}-confirm"}, "verified": True}
+    hold.update({"name": "Valencia Riverside Inn Garden Lodge", "unit_price": 999.99, "status": "HELD"})
+    done = [{"function": "confirm_booking", "args": {"hold_id": f"H{i}", "key": f"H{i}-confirm-" + "x" * 16}, "verified": True}
             for i in range(12)]
-    sigma = {"task": longest, "pending": [hold] * (presets["H_max"] + 1), "queued": queued[: presets["Q_max"]],
-             "done": done, "trusted_refs": [f"HOT-XXX-{i}" for i in range(12)]}
+    sigma = {"task": longest, "pending": [hold] * (presets["H_max"] + 1), "done": done,
+             "trusted_refs": [f"HOT-XXX-{i}" for i in range(12)]}
     return counter.count(cl.snapshot_text(sigma))
 
 
@@ -85,7 +82,7 @@ def reserves_from_table(table: pd.DataFrame, deltas, presets: dict, counter, sig
                 for qb in CELLS_Q:
                     bound = worst_case_bound(kind, h, qb, presets, counter, sigma_max_tokens)
                     entry = {"R": bound, "n": 0, "pooled_q": False, "worst_case": True, "bound": bound}
-                    if kind in ("settle", "draft", "stop"):
+                    if kind in ("settle", "draft", "stop") or (kind == "verified" and h == 0):
                         entry.update({"worst_case": False, "exact": True})     # deterministic classes
                     else:
                         cell = tab[(tab.kind == kind) & (tab.h == h) & (tab.qb == qb)]["cost"]
@@ -114,9 +111,9 @@ def bootstrap_reserves(table: pd.DataFrame, delta: float, n_boot: int = 200, see
     rng = random.Random(seed)
     tasks = sorted(table.task_id.unique())
     rows = []
-    tab = table[table.kind == "verified"].copy()
+    tab = table[(table.kind == "verified") & (table.h > 0)].copy()
     tab["qb"] = tab["q"].map(q_bucket)
-    for h in CELLS_H:
+    for h in [x for x in CELLS_H if x > 0]:
         for qb in CELLS_Q:
             vals = []
             for _ in range(n_boot):
@@ -138,6 +135,7 @@ def coverage(table: pd.DataFrame, reserves: dict, delta: float) -> pd.DataFrame:
     """Share of held-out closures whose cost is at or below the reserve of their cell, per condition and kind."""
     from metrics import wilson
     rows = []
+    table = table[~((table.kind == "verified") & (table.h == 0))]      # the h = 0 verified closure is exact, not certified
     for (cond, kind), g in table.groupby(["condition", "kind"]):
         covered = sum(1 for _, r in g.iterrows() if r["cost"] <= lookup(reserves, delta, kind, int(r["h"]), int(r["q"])))
         p, lo, hi = wilson(covered, len(g))
