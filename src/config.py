@@ -18,7 +18,8 @@ EXTERNAL = REPO_DIR / "external"
 SUITE_DATA = REPO_DIR / "bookings_data"
 
 AGENTDOJO_VERSION = "0.1.35"
-RUNTIME_VERSION = "2"      # bumped whenever the recording runtime changes; stale records, tables and caches are rebuilt automatically
+RUNTIME_VERSION = "2"      # bumped whenever the recording runtime changes; stale records are re-recorded automatically
+CLOSURE_VERSION = "2"      # bumped whenever the closure or the gate changes; stale closure tables are rebuilt automatically
 
 # Host presets (plan v2.1, Section 2.3). Costs are in token-equivalents (TE).
 PRESETS = {
@@ -41,9 +42,10 @@ VERIFY_REQUIRED = {"confirm_booking": "verify_hold", "send_money": "verify_payee
 # Tools whose returns carry attacker-controlled fields.
 UNTRUSTED_TOOLS = {"search_hotels", "get_hotel_terms", "search_cars", "read_inbox", "search_inbox"}
 
-CONDITIONS = ["A0", "A1", "A2", "A3", "A123"]
+CONDITIONS = ["A0", "A1", "A2", "A3", "A123", "A5", "A6"]
 ATTACK_BY_CONDITION = {"A0": None, "A1": "padding", "A2": "transient_error",
-                       "A3": "clarification_bait", "A123": "combined", "A4": "pending_flood"}
+                       "A3": "clarification_bait", "A123": "combined", "A4": "pending_flood",
+                       "A5": "chaining", "A6": "chaining_padding"}
 
 
 def ensure_dirs():
