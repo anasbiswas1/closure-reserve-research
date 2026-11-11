@@ -1,0 +1,615 @@
+{
+ "deltas": [
+  0.05,
+  0.1
+ ],
+ "sigma_max_tokens": 721,
+ "presets": {
+  "w": 100,
+  "m_out": 400,
+  "m_out_c": 300,
+  "k_max": 3,
+  "L": 1200,
+  "H_max": 2,
+  "Q_max": 3,
+  "M": 40,
+  "record_ceiling": 80000,
+  "P": 300
+ },
+ "closure_presets": {
+  "M_c": 6,
+  "L_c": 200
+ },
+ "reserves": {
+  "0.05": {
+   "verified": {
+    "0,0": {
+     "R": 13655.0,
+     "n": 41,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 15198
+    },
+    "0,1": {
+     "R": 14584.0,
+     "n": 19,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 15198
+    },
+    "1,0": {
+     "R": 10269.0,
+     "n": 19,
+     "pooled_q": true,
+     "worst_case": false,
+     "bound": 15298
+    },
+    "1,1": {
+     "R": 10269.0,
+     "n": 19,
+     "pooled_q": true,
+     "worst_case": false,
+     "bound": 15298
+    },
+    "2,0": {
+     "R": 15398,
+     "n": 3,
+     "pooled_q": false,
+     "worst_case": true,
+     "bound": 15398
+    },
+    "2,1": {
+     "R": 15398,
+     "n": 3,
+     "pooled_q": false,
+     "worst_case": true,
+     "bound": 15398
+    }
+   },
+   "settle": {
+    "0,0": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "0,1": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "1,0": {
+     "R": 100,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 100,
+     "exact": true
+    },
+    "1,1": {
+     "R": 100,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 100,
+     "exact": true
+    },
+    "2,0": {
+     "R": 200,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 200,
+     "exact": true
+    },
+    "2,1": {
+     "R": 200,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 200,
+     "exact": true
+    }
+   },
+   "draft": {
+    "0,0": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "0,1": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "1,0": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "1,1": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "2,0": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "2,1": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    }
+   },
+   "stop": {
+    "0,0": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "0,1": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "1,0": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "1,1": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "2,0": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "2,1": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    }
+   }
+  },
+  "0.1": {
+   "verified": {
+    "0,0": {
+     "R": 10098.0,
+     "n": 41,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 15198
+    },
+    "0,1": {
+     "R": 14313.0,
+     "n": 19,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 15198
+    },
+    "1,0": {
+     "R": 10269.0,
+     "n": 11,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 15298
+    },
+    "1,1": {
+     "R": 10055.0,
+     "n": 19,
+     "pooled_q": true,
+     "worst_case": false,
+     "bound": 15298
+    },
+    "2,0": {
+     "R": 15398,
+     "n": 3,
+     "pooled_q": false,
+     "worst_case": true,
+     "bound": 15398
+    },
+    "2,1": {
+     "R": 15398,
+     "n": 3,
+     "pooled_q": false,
+     "worst_case": true,
+     "bound": 15398
+    }
+   },
+   "settle": {
+    "0,0": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "0,1": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "1,0": {
+     "R": 100,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 100,
+     "exact": true
+    },
+    "1,1": {
+     "R": 100,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 100,
+     "exact": true
+    },
+    "2,0": {
+     "R": 200,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 200,
+     "exact": true
+    },
+    "2,1": {
+     "R": 200,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 200,
+     "exact": true
+    }
+   },
+   "draft": {
+    "0,0": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "0,1": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "1,0": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "1,1": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "2,0": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "2,1": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    }
+   },
+   "stop": {
+    "0,0": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "0,1": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "1,0": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "1,1": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "2,0": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "2,1": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    }
+   }
+  }
+ },
+ "bounds": {
+  "0.0": {
+   "verified": {
+    "0,0": {
+     "R": 15198,
+     "n": 41,
+     "pooled_q": false,
+     "worst_case": true,
+     "bound": 15198
+    },
+    "0,1": {
+     "R": 15198,
+     "n": 19,
+     "pooled_q": false,
+     "worst_case": true,
+     "bound": 15198
+    },
+    "1,0": {
+     "R": 15298,
+     "n": 11,
+     "pooled_q": false,
+     "worst_case": true,
+     "bound": 15298
+    },
+    "1,1": {
+     "R": 15298,
+     "n": 8,
+     "pooled_q": false,
+     "worst_case": true,
+     "bound": 15298
+    },
+    "2,0": {
+     "R": 15398,
+     "n": 3,
+     "pooled_q": false,
+     "worst_case": true,
+     "bound": 15398
+    },
+    "2,1": {
+     "R": 15398,
+     "n": 3,
+     "pooled_q": false,
+     "worst_case": true,
+     "bound": 15398
+    }
+   },
+   "settle": {
+    "0,0": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "0,1": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "1,0": {
+     "R": 100,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 100,
+     "exact": true
+    },
+    "1,1": {
+     "R": 100,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 100,
+     "exact": true
+    },
+    "2,0": {
+     "R": 200,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 200,
+     "exact": true
+    },
+    "2,1": {
+     "R": 200,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 200,
+     "exact": true
+    }
+   },
+   "draft": {
+    "0,0": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "0,1": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "1,0": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "1,1": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "2,0": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "2,1": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    }
+   },
+   "stop": {
+    "0,0": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "0,1": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "1,0": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "1,1": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "2,0": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    },
+    "2,1": {
+     "R": 0,
+     "n": 0,
+     "pooled_q": false,
+     "worst_case": false,
+     "bound": 0,
+     "exact": true
+    }
+   }
+  }
+ }
+}

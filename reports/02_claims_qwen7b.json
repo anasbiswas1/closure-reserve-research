@@ -1,0 +1,77 @@
+{
+  "model": "qwen7b",
+  "C1_preliminary_all_hold": true,
+  "cells": {
+    "delta=0.05,A0": {
+      "coverage": 0.948,
+      "ci_lo": 0.9041,
+      "ci_hi": 0.9724,
+      "n": 173,
+      "holds": true
+    },
+    "delta=0.05,A1": {
+      "coverage": 0.9543,
+      "ci_lo": 0.9124,
+      "ci_hi": 0.9767,
+      "n": 175,
+      "holds": true
+    },
+    "delta=0.05,A2": {
+      "coverage": 0.9518,
+      "ci_lo": 0.9078,
+      "ci_hi": 0.9754,
+      "n": 166,
+      "holds": true
+    },
+    "delta=0.05,A3": {
+      "coverage": 0.9545,
+      "ci_lo": 0.9129,
+      "ci_hi": 0.9768,
+      "n": 176,
+      "holds": true
+    },
+    "delta=0.05,A123": {
+      "coverage": 0.948,
+      "ci_lo": 0.9041,
+      "ci_hi": 0.9724,
+      "n": 173,
+      "holds": true
+    },
+    "delta=0.1,A0": {
+      "coverage": 0.9075,
+      "ci_lo": 0.8551,
+      "ci_hi": 0.9423,
+      "n": 173,
+      "holds": true
+    },
+    "delta=0.1,A1": {
+      "coverage": 0.9371,
+      "ci_lo": 0.891,
+      "ci_hi": 0.9645,
+      "n": 175,
+      "holds": true
+    },
+    "delta=0.1,A2": {
+      "coverage": 0.9217,
+      "ci_lo": 0.8706,
+      "ci_hi": 0.9537,
+      "n": 166,
+      "holds": true
+    },
+    "delta=0.1,A3": {
+      "coverage": 0.9318,
+      "ci_lo": 0.8846,
+      "ci_hi": 0.9606,
+      "n": 176,
+      "holds": true
+    },
+    "delta=0.1,A123": {
+      "coverage": 0.9191,
+      "ci_lo": 0.8688,
+      "ci_hi": 0.9512,
+      "n": 173,
+      "holds": true
+    }
+  },
+  "note": "final C1 uses the cut-off share of ReserveGuard runs in notebook 03; this is coverage of the reserve on held-out closures"
+}
