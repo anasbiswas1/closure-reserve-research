@@ -1,97 +1,97 @@
 {
   "model": "qwen7b",
   "budget_levels": {
-    "0.5x": 8002,
-    "0.75x": 12004,
-    "1.0x": 16005,
-    "1.5x": 24008
+    "0.5x": 7664,
+    "0.75x": 11495,
+    "1.0x": 15327,
+    "1.5x": 22990
   },
-  "clean_median_TE": 16005.0,
+  "clean_median_TE": 15327.0,
   "C1": {
     "holds": true,
     "cells": {
       "delta=0.05,A0": {
         "cut_off": 0.0,
         "ci_lo": 0.0,
-        "n": 128,
+        "n": 112,
         "holds": true
       },
       "delta=0.05,A1": {
         "cut_off": 0.0,
         "ci_lo": 0.0,
-        "n": 128,
+        "n": 112,
         "holds": true
       },
       "delta=0.05,A2": {
         "cut_off": 0.0,
         "ci_lo": 0.0,
-        "n": 128,
+        "n": 112,
         "holds": true
       },
       "delta=0.05,A3": {
         "cut_off": 0.0,
         "ci_lo": 0.0,
-        "n": 128,
+        "n": 112,
         "holds": true
       },
       "delta=0.05,A123": {
         "cut_off": 0.0,
         "ci_lo": 0.0,
-        "n": 128,
+        "n": 112,
         "holds": true
       },
       "delta=0.05,A5": {
         "cut_off": 0.0,
         "ci_lo": 0.0,
-        "n": 128,
+        "n": 112,
         "holds": true
       },
       "delta=0.05,A6": {
         "cut_off": 0.0,
         "ci_lo": 0.0,
-        "n": 128,
+        "n": 112,
         "holds": true
       },
       "delta=0.1,A0": {
         "cut_off": 0.0,
         "ci_lo": 0.0,
-        "n": 128,
+        "n": 112,
         "holds": true
       },
       "delta=0.1,A1": {
         "cut_off": 0.0,
         "ci_lo": 0.0,
-        "n": 128,
+        "n": 112,
         "holds": true
       },
       "delta=0.1,A2": {
         "cut_off": 0.0,
         "ci_lo": 0.0,
-        "n": 128,
+        "n": 112,
         "holds": true
       },
       "delta=0.1,A3": {
         "cut_off": 0.0,
         "ci_lo": 0.0,
-        "n": 128,
+        "n": 112,
         "holds": true
       },
       "delta=0.1,A123": {
         "cut_off": 0.0,
         "ci_lo": 0.0,
-        "n": 128,
+        "n": 112,
         "holds": true
       },
       "delta=0.1,A5": {
         "cut_off": 0.0,
         "ci_lo": 0.0,
-        "n": 128,
+        "n": 112,
         "holds": true
       },
       "delta=0.1,A6": {
         "cut_off": 0.0,
         "ci_lo": 0.0,
-        "n": 128,
+        "n": 112,
         "holds": true
       }
     }
@@ -127,33 +127,33 @@
   "mcnemar_vs_reserveguard_A123_1.0x": {
     "B0_fixed_cap": {
       "b_only": 0,
-      "a_only": 1,
-      "discordant": 1,
-      "p_exact": 1.0
+      "a_only": 2,
+      "discordant": 2,
+      "p_exact": 0.5
     },
     "B1_fixed_10pct": {
-      "b_only": 1,
+      "b_only": 0,
       "a_only": 0,
-      "discordant": 1,
+      "discordant": 0,
       "p_exact": 1.0
     },
     "B1_fixed_15pct": {
-      "b_only": 1,
+      "b_only": 0,
       "a_only": 0,
-      "discordant": 1,
+      "discordant": 0,
       "p_exact": 1.0
     },
     "B1_fixed_20pct": {
-      "b_only": 1,
+      "b_only": 0,
       "a_only": 0,
-      "discordant": 1,
+      "discordant": 0,
       "p_exact": 1.0
     },
     "B1_fixed_30pct": {
       "b_only": 0,
-      "a_only": 3,
-      "discordant": 3,
-      "p_exact": 0.25
+      "a_only": 4,
+      "discordant": 4,
+      "p_exact": 0.125
     },
     "B2_self_estimate": {
       "b_only": 1,
@@ -162,34 +162,34 @@
       "p_exact": 1.0
     },
     "B3_progress_same_ceiling": {
-      "b_only": 1,
+      "b_only": 0,
       "a_only": 0,
-      "discordant": 1,
+      "discordant": 0,
       "p_exact": 1.0
     },
     "B3_progress_same_mean": {
-      "b_only": 1,
+      "b_only": 12,
       "a_only": 0,
-      "discordant": 1,
-      "p_exact": 1.0
+      "discordant": 12,
+      "p_exact": 0.00048828125
     },
     "B4_oracle": {
       "b_only": 0,
-      "a_only": 3,
-      "discordant": 3,
-      "p_exact": 0.25
+      "a_only": 4,
+      "discordant": 4,
+      "p_exact": 0.125
     },
     "B5_worst_case": {
-      "b_only": 0,
+      "b_only": 5,
       "a_only": 0,
-      "discordant": 0,
-      "p_exact": 1.0
+      "discordant": 5,
+      "p_exact": 0.0625
     },
     "ReserveGuard_d10": {
       "b_only": 0,
-      "a_only": 0,
-      "discordant": 0,
-      "p_exact": 1.0
+      "a_only": 4,
+      "discordant": 4,
+      "p_exact": 0.125
     }
   }
 }
