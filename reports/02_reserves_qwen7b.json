@@ -3,7 +3,7 @@
   0.05,
   0.1
  ],
- "sigma_max_tokens": 640,
+ "sigma_max_tokens": 780,
  "presets": {
   "w": 100,
   "m_out": 400,
@@ -20,7 +20,7 @@
   "M_c": 6,
   "L_c": 200
  },
- "closure_version": "2",
+ "closure_version": "3",
  "calibration_conditions": [
   "A0",
   "A1",
@@ -36,7 +36,8 @@
     "0,0": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -44,45 +45,53 @@
     "0,1": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
     },
     "1,0": {
-     "R": 4289.0,
-     "n": 132,
-     "pooled_q": false,
+     "R": 8641.0,
+     "n": 20,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
-     "bound": 14806
+     "bound": 16024
     },
     "1,1": {
-     "R": 4289.0,
-     "n": 132,
-     "pooled_q": true,
+     "R": 8641.0,
+     "n": 20,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
-     "bound": 14806
+     "bound": 16024
     },
     "2,0": {
-     "R": 7742.0,
-     "n": 47,
-     "pooled_q": false,
+     "R": 8641.0,
+     "n": 20,
+     "unit": "task",
+     "pooled_h": true,
      "worst_case": false,
-     "bound": 14906
+     "bound": 16124,
+     "n_cell": 6
     },
     "2,1": {
-     "R": 7742.0,
-     "n": 47,
-     "pooled_q": true,
+     "R": 8641.0,
+     "n": 20,
+     "unit": "task",
+     "pooled_h": true,
      "worst_case": false,
-     "bound": 14906
+     "bound": 16124,
+     "n_cell": 6
     }
    },
    "settle": {
     "0,0": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -90,7 +99,8 @@
     "0,1": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -98,7 +108,8 @@
     "1,0": {
      "R": 100,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 100,
      "exact": true
@@ -106,7 +117,8 @@
     "1,1": {
      "R": 100,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 100,
      "exact": true
@@ -114,7 +126,8 @@
     "2,0": {
      "R": 200,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 200,
      "exact": true
@@ -122,7 +135,8 @@
     "2,1": {
      "R": 200,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 200,
      "exact": true
@@ -132,7 +146,8 @@
     "0,0": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -140,7 +155,8 @@
     "0,1": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -148,7 +164,8 @@
     "1,0": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -156,7 +173,8 @@
     "1,1": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -164,7 +182,8 @@
     "2,0": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -172,7 +191,8 @@
     "2,1": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -182,7 +202,8 @@
     "0,0": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -190,7 +211,8 @@
     "0,1": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -198,7 +220,8 @@
     "1,0": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -206,7 +229,8 @@
     "1,1": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -214,7 +238,8 @@
     "2,0": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -222,7 +247,8 @@
     "2,1": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -234,7 +260,8 @@
     "0,0": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -242,45 +269,53 @@
     "0,1": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
     },
     "1,0": {
-     "R": 4220.0,
-     "n": 132,
-     "pooled_q": false,
+     "R": 6810.0,
+     "n": 20,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
-     "bound": 14806
+     "bound": 16024
     },
     "1,1": {
-     "R": 4220.0,
-     "n": 132,
-     "pooled_q": true,
+     "R": 6810.0,
+     "n": 20,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
-     "bound": 14806
+     "bound": 16024
     },
     "2,0": {
-     "R": 7742.0,
-     "n": 47,
-     "pooled_q": false,
+     "R": 8297.0,
+     "n": 20,
+     "unit": "task",
+     "pooled_h": true,
      "worst_case": false,
-     "bound": 14906
+     "bound": 16124,
+     "n_cell": 6
     },
     "2,1": {
-     "R": 7742.0,
-     "n": 47,
-     "pooled_q": true,
+     "R": 8297.0,
+     "n": 20,
+     "unit": "task",
+     "pooled_h": true,
      "worst_case": false,
-     "bound": 14906
+     "bound": 16124,
+     "n_cell": 6
     }
    },
    "settle": {
     "0,0": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -288,7 +323,8 @@
     "0,1": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -296,7 +332,8 @@
     "1,0": {
      "R": 100,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 100,
      "exact": true
@@ -304,7 +341,8 @@
     "1,1": {
      "R": 100,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 100,
      "exact": true
@@ -312,7 +350,8 @@
     "2,0": {
      "R": 200,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 200,
      "exact": true
@@ -320,7 +359,8 @@
     "2,1": {
      "R": 200,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 200,
      "exact": true
@@ -330,7 +370,8 @@
     "0,0": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -338,7 +379,8 @@
     "0,1": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -346,7 +388,8 @@
     "1,0": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -354,7 +397,8 @@
     "1,1": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -362,7 +406,8 @@
     "2,0": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -370,7 +415,8 @@
     "2,1": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -380,7 +426,8 @@
     "0,0": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -388,7 +435,8 @@
     "0,1": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -396,7 +444,8 @@
     "1,0": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -404,7 +453,8 @@
     "1,1": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -412,7 +462,8 @@
     "2,0": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -420,7 +471,8 @@
     "2,1": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -434,7 +486,8 @@
     "0,0": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -442,45 +495,55 @@
     "0,1": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
     },
     "1,0": {
-     "R": 14806,
-     "n": 132,
-     "pooled_q": false,
+     "R": 16024,
+     "n": 20,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": true,
-     "bound": 14806
+     "bound": 16024,
+     "n_pooled": 20
     },
     "1,1": {
-     "R": 14806,
-     "n": 0,
-     "pooled_q": false,
+     "R": 16024,
+     "n": 20,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": true,
-     "bound": 14806
+     "bound": 16024,
+     "n_pooled": 20
     },
     "2,0": {
-     "R": 14906,
-     "n": 47,
-     "pooled_q": false,
+     "R": 16124,
+     "n": 6,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": true,
-     "bound": 14906
+     "bound": 16124,
+     "n_pooled": 20
     },
     "2,1": {
-     "R": 14906,
-     "n": 0,
-     "pooled_q": false,
+     "R": 16124,
+     "n": 6,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": true,
-     "bound": 14906
+     "bound": 16124,
+     "n_pooled": 20
     }
    },
    "settle": {
     "0,0": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -488,7 +551,8 @@
     "0,1": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -496,7 +560,8 @@
     "1,0": {
      "R": 100,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 100,
      "exact": true
@@ -504,7 +569,8 @@
     "1,1": {
      "R": 100,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 100,
      "exact": true
@@ -512,7 +578,8 @@
     "2,0": {
      "R": 200,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 200,
      "exact": true
@@ -520,7 +587,8 @@
     "2,1": {
      "R": 200,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 200,
      "exact": true
@@ -530,7 +598,8 @@
     "0,0": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -538,7 +607,8 @@
     "0,1": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -546,7 +616,8 @@
     "1,0": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -554,7 +625,8 @@
     "1,1": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -562,7 +634,8 @@
     "2,0": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -570,7 +643,8 @@
     "2,1": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -580,7 +654,8 @@
     "0,0": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -588,7 +663,8 @@
     "0,1": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -596,7 +672,8 @@
     "1,0": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -604,7 +681,8 @@
     "1,1": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -612,7 +690,8 @@
     "2,0": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true
@@ -620,7 +699,8 @@
     "2,1": {
      "R": 0,
      "n": 0,
-     "pooled_q": false,
+     "unit": "task",
+     "pooled_h": false,
      "worst_case": false,
      "bound": 0,
      "exact": true

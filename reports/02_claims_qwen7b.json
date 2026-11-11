@@ -1,105 +1,61 @@
 {
   "model": "qwen7b",
-  "C1_preliminary_all_hold": false,
-  "cells": {
-    "delta=0.05,A0": {
-      "coverage": 0.7091,
-      "ci_lo": 0.5786,
-      "ci_hi": 0.8123,
-      "n": 55,
-      "holds": false
+  "C1_preliminary_all_hold": true,
+  "task_cells": {
+    "delta=0.05,h=1": {
+      "R": 8641.0,
+      "coverage": 0.9333,
+      "ci_lo": 0.7018,
+      "ci_hi": 0.9881,
+      "n_tasks": 15,
+      "max_score": 9140.0,
+      "holds": true
     },
-    "delta=0.05,A1": {
-      "coverage": 0.7455,
-      "ci_lo": 0.617,
-      "ci_hi": 0.8419,
-      "n": 55,
-      "holds": false
+    "delta=0.05,h=2": {
+      "R": 8641.0,
+      "coverage": 1.0,
+      "ci_lo": 0.5655,
+      "ci_hi": 1.0,
+      "n_tasks": 5,
+      "max_score": 8319.0,
+      "holds": true
     },
-    "delta=0.05,A2": {
-      "coverage": 0.7917,
-      "ci_lo": 0.6574,
-      "ci_hi": 0.8827,
-      "n": 48,
-      "holds": false
+    "delta=0.1,h=1": {
+      "R": 6810.0,
+      "coverage": 0.9333,
+      "ci_lo": 0.7018,
+      "ci_hi": 0.9881,
+      "n_tasks": 15,
+      "max_score": 9140.0,
+      "holds": true
     },
-    "delta=0.05,A3": {
-      "coverage": 0.6429,
-      "ci_lo": 0.5119,
-      "ci_hi": 0.7554,
-      "n": 56,
-      "holds": false
-    },
-    "delta=0.05,A123": {
-      "coverage": 0.7069,
-      "ci_lo": 0.5799,
-      "ci_hi": 0.8082,
-      "n": 58,
-      "holds": false
-    },
-    "delta=0.05,A5": {
-      "coverage": 0.6667,
-      "ci_lo": 0.5207,
-      "ci_hi": 0.7864,
-      "n": 45,
-      "holds": false
-    },
-    "delta=0.05,A6": {
-      "coverage": 0.6349,
-      "ci_lo": 0.5115,
-      "ci_hi": 0.7428,
-      "n": 63,
-      "holds": false
-    },
-    "delta=0.1,A0": {
-      "coverage": 0.7091,
-      "ci_lo": 0.5786,
-      "ci_hi": 0.8123,
-      "n": 55,
-      "holds": false
-    },
-    "delta=0.1,A1": {
-      "coverage": 0.7455,
-      "ci_lo": 0.617,
-      "ci_hi": 0.8419,
-      "n": 55,
-      "holds": false
-    },
-    "delta=0.1,A2": {
-      "coverage": 0.7917,
-      "ci_lo": 0.6574,
-      "ci_hi": 0.8827,
-      "n": 48,
-      "holds": false
-    },
-    "delta=0.1,A3": {
-      "coverage": 0.6429,
-      "ci_lo": 0.5119,
-      "ci_hi": 0.7554,
-      "n": 56,
-      "holds": false
-    },
-    "delta=0.1,A123": {
-      "coverage": 0.6897,
-      "ci_lo": 0.562,
-      "ci_hi": 0.7938,
-      "n": 58,
-      "holds": false
-    },
-    "delta=0.1,A5": {
-      "coverage": 0.6667,
-      "ci_lo": 0.5207,
-      "ci_hi": 0.7864,
-      "n": 45,
-      "holds": false
-    },
-    "delta=0.1,A6": {
-      "coverage": 0.6349,
-      "ci_lo": 0.5115,
-      "ci_hi": 0.7428,
-      "n": 63,
-      "holds": false
+    "delta=0.1,h=2": {
+      "R": 8297.0,
+      "coverage": 0.8,
+      "ci_lo": 0.3755,
+      "ci_hi": 0.9638,
+      "n_tasks": 5,
+      "max_score": 8319.0,
+      "holds": true
     }
   },
-  "note": "final C1 uses the cut-off share of ReserveGuard runs in notebook 03; this is coverage of the reserve on held-out closures"
+  "closure_coverage_by_condition": {
+    "delta=0.05,A0": 1.0,
+    "delta=0.05,A1": 1.0,
+    "delta=0.05,A2": 1.0,
+    "delta=0.05,A3": 1.0,
+    "delta=0.05,A123": 1.0,
+    "delta=0.05,A5": 0.9667,
+    "delta=0.05,A6": 1.0,
+    "delta=0.1,A0": 1.0,
+    "delta=0.1,A1": 1.0,
+    "delta=0.1,A2": 0.9333,
+    "delta=0.1,A3": 0.9429,
+    "delta=0.1,A123": 0.9706,
+    "delta=0.1,A5": 0.9,
+    "delta=0.1,A6": 0.9394
+  },
+  "over_commit_closures_test": 0,
+  "refused_duplicates_test": 5,
+  "note": "final C1 uses the cut-off share of ReserveGuard runs in notebook 03; task_cells is the certified statement on held-out tasks"
 }

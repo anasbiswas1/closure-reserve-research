@@ -19,7 +19,7 @@ SUITE_DATA = REPO_DIR / "bookings_data"
 
 AGENTDOJO_VERSION = "0.1.35"
 RUNTIME_VERSION = "2"      # bumped whenever the recording runtime changes; stale records are re-recorded automatically
-CLOSURE_VERSION = "2"      # bumped whenever the closure or the gate changes; stale closure tables are rebuilt automatically
+CLOSURE_VERSION = "3"      # bumped whenever the closure or the gate changes; stale closure tables are rebuilt automatically
 
 # Host presets (plan v2.1, Section 2.3). Costs are in token-equivalents (TE).
 PRESETS = {

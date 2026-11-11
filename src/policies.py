@@ -1,7 +1,8 @@
 """Budget policies compared at the same budget B (plan v2.1, Section 7). Every policy exposes
-allow(remaining, cap, state) -> bool, where cap is the host bound on the next step (equation 2) and state carries
-the holds that would be open after the step, the queued count, the milestones and the spend so far; and a
-chooser(kinds, h, q, remaining, table_t) that picks the closure kind run at the cut."""
+allow(remaining, cap, state) -> bool, called at the two points of the exact gate: before a model call (cap is the
+exact prompt plus m_out; state["h"] is the holds open now) and before the proposed calls are executed (cap is w per
+call; state["h"] is the holds they would leave open). state also carries the milestones, the spend so far and B.
+Each policy also has a chooser(kinds, h, q, remaining, table_t) that picks the closure kind run at the cut."""
 from __future__ import annotations
 
 import closure as cl
@@ -92,9 +93,9 @@ class WorstCase(Policy):
         return rs.lookup(self.bounds, 0.0, kind, h, q)
 
     def allow(self, remaining, cap, state):
-        # after the next call and its (at most k_max) tool calls, the holds that may be open are bounded by H_max
-        h_next = min(state["h"] + self.rec["presets"]["k_max"], self.rec["presets"]["H_max"])
-        return remaining - cap >= self._R(cl.min_kind(h_next), h_next, 0)
+        # keep enough for the most useful closure of the state this step leads to: the verified closure when a
+        # hold is open (its reserve is the certified quantile, or the bound for B5), nothing when nothing is open
+        return remaining - cap >= self._R("verified", state["h"], 0)
 
     def chooser(self, kinds, h, q, remaining, table_t):
         for k in ("verified", "settle", "draft", "stop"):

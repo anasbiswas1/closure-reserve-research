@@ -1,5 +1,5 @@
-delta,"cell(h,q)",R,n,worst_case,bound,R_over_bound
-0.05,"1,0",4289.0,132,False,14806,0.29
-0.05,"2,0",7742.0,47,False,14906,0.519
-0.1,"1,0",4220.0,132,False,14806,0.285
-0.1,"2,0",7742.0,47,False,14906,0.519
+delta,h,R,n_tasks,pooled_h,worst_case,bound,R_over_bound
+0.05,1,8641.0,20,False,False,16024,0.539
+0.05,2,8641.0,20,True,False,16124,0.536
+0.1,1,6810.0,20,False,False,16024,0.425
+0.1,2,8297.0,20,True,False,16124,0.515
