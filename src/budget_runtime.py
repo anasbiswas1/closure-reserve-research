@@ -304,21 +304,32 @@ class RecordingToolsExecutor(BasePipelineElement):
 
 
 # ----------------------------------------------------------------------------- model element
-_FUNC_RE = re.compile(r"<function\s*=\s*([^>]+)>(.*?)</function>", re.DOTALL)
+_OPEN_RE = re.compile(r"<function\s*=\s*([A-Za-z0-9_\-\.]+)\s*>")
 
 
 def parse_calls(completion: str, k_max: int) -> list[FunctionCall]:
-    calls = []
-    for m in _FUNC_RE.finditer(completion):
+    """Parses `<function=name>{json}` calls. The JSON object is read with a balanced decoder from the first brace
+    after the tag, so the closer may be `</function>`, `<function>` (which Qwen2.5 writes), a stray brace or
+    nothing at all. AgentDojo's own parser requires `</function>` and drops the call otherwise."""
+    calls: list[FunctionCall] = []
+    dec = json.JSONDecoder()
+    pos = 0
+    while len(calls) < k_max:
+        m = _OPEN_RE.search(completion, pos)
+        if not m:
+            break
         name = m.group(1).strip()
+        i = completion.find("{", m.end())
+        pos = m.end()
+        if i == -1:
+            break
         try:
-            args = json.loads(m.group(2).strip() or "{}")
+            args, end = dec.raw_decode(completion, i)
         except json.JSONDecodeError:
             continue
+        pos = end
         if isinstance(args, dict):
             calls.append(FunctionCall(function=name, args=args, id=f"call_{len(calls)}"))
-        if len(calls) >= k_max:
-            break
     return calls
 
 

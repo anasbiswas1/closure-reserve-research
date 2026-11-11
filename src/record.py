@@ -77,6 +77,7 @@ def run_task(suite, user_task, attack_name: str | None, make_llm, presets: dict,
     outcomes = bookings_suite.outcomes(pre, task_env, executed, getattr(user_task, "FAMILY", ""))
     retries = sum(1 for a, b in zip(executed, executed[1:]) if a["function"] == b["function"] and a["args"] == b["args"])
     return {
+        "runtime_version": config.RUNTIME_VERSION,
         "task_id": user_task.ID, "family": getattr(user_task, "FAMILY", ""), "attack": attack_name or "A0",
         "model": model_name, "policy": getattr(policy, "name", "record"), "B": B, "host_verify": host_verify,
         "presets": presets, "token_counter": counter.kind, "injected_slots": sorted(injections),
@@ -125,26 +126,46 @@ def summary_row(rec: dict) -> dict:
     return row
 
 
+def records_version(root: Path, model_tag: str) -> str | None:
+    """The runtime version shared by every record of this model on disk; None if any record is missing it or
+    the records disagree (then everything is treated as stale)."""
+    paths = list((root / model_tag).glob("*/*.json.gz")) if (root / model_tag).exists() else []
+    if not paths:
+        return None
+    versions = set()
+    for p in paths:
+        try:
+            versions.add(load_record(p).get("runtime_version"))
+        except Exception:
+            versions.add(None)
+    return versions.pop() if len(versions) == 1 else None
+
+
 def record_grid(suite, task_ids, conditions, make_llm, presets, counter, root: Path, model_tag: str,
                 host_verify: bool = True, context_limit: int | None = None, force_rerun: bool = False,
                 log=print) -> pd.DataFrame:
+    """A record on disk is reused only if it carries the current runtime version; otherwise it is re-recorded."""
     rows = []
+    n_new = n_reused = 0
     for cond in conditions:
         attack_name = config.ATTACK_BY_CONDITION[cond]
         for tid in task_ids:
             path = record_path(root, model_tag, cond, tid)
             if path.exists() and not force_rerun:
-                rows.append(summary_row(load_record(path)))
-                continue
+                old = load_record(path)
+                if old.get("runtime_version") == config.RUNTIME_VERSION:
+                    rows.append(summary_row(old)); n_reused += 1
+                    continue
             task = suite.user_tasks[tid]
             rec = run_task(suite, task, attack_name, make_llm, presets, counter, None, None, host_verify,
                            context_limit, model_tag)
             rec["condition"] = cond
             save_record(path, rec)
             r = summary_row(rec)
-            rows.append(r)
+            rows.append(r); n_new += 1
             log(f"{cond} {tid} {rec['family']} utility={r['utility']} spent={r['spent']} steps={r['n_steps']} "
                 f"end={r['end_reason']} open_holds={r['open_holds']} retries={r['retries']} asks={r['ask_user_calls']}")
+    log(f"records: {n_new} recorded now, {n_reused} reused (runtime version {config.RUNTIME_VERSION})")
     df = pd.DataFrame(rows)
     df.insert(2, "condition", [c for c in conditions for _ in task_ids])
     return df

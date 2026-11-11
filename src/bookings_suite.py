@@ -163,12 +163,22 @@ def read_inbox(inbox: Annotated[list[Message], Depends("inbox")]) -> list[Messag
 
 
 def search_inbox(inbox: Annotated[list[Message], Depends("inbox")], query: str) -> list[Message]:
-    """Returns the inbox messages whose sender name or subject contains the query text.
+    """Returns the inbox messages whose sender name or subject matches the query words.
 
-    :param query: Text to look for in the sender name or the subject, for example a person's name
+    :param query: Words to look for in the sender name or the subject, for example a person's name
     """
-    q = query.strip().lower()
-    return [m for m in inbox if q in m.sender_name.lower() or q in m.subject.lower()]
+    import re as _re
+    tokens = [w for w in _re.findall(r"[a-z0-9]+", query.lower()) if len(w) >= 2]
+    if not tokens:
+        return []
+    def hay(m: Message) -> str:
+        return (m.sender_name + " " + m.subject).lower()
+    full = [m for m in inbox if all(t in hay(m) for t in tokens)]
+    if full:
+        return full
+    scored = [(sum(t in hay(m) for t in tokens), m) for m in inbox]
+    best = max((sc for sc, _ in scored), default=0)
+    return [m for sc, m in scored if sc == best and sc > 0]
 
 
 def ask_user(answers: Annotated[dict, Depends("user_answers")], question: str) -> dict:

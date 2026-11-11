@@ -18,6 +18,7 @@ EXTERNAL = REPO_DIR / "external"
 SUITE_DATA = REPO_DIR / "bookings_data"
 
 AGENTDOJO_VERSION = "0.1.35"
+RUNTIME_VERSION = "2"      # bumped whenever the recording runtime changes; stale records, tables and caches are rebuilt automatically
 
 # Host presets (plan v2.1, Section 2.3). Costs are in token-equivalents (TE).
 PRESETS = {

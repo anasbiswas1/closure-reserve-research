@@ -98,3 +98,27 @@ def test_record_round_trip(tmp_path):
     record.save_record(path, rec)
     back = record.load_record(path)
     assert back["task_id"] == rec["task_id"] and len(back["messages"]) == len(rec["messages"])
+
+
+def test_parse_calls_accepts_qwen_closers_and_stray_braces():
+    good = br.parse_calls('Let us search.\n\n<function=search_hotels>{"city": "Prague", "start": "2027-06-10", "end": "2027-06-12"}</function>', 3)
+    qwen = br.parse_calls('Let us search.\n\n<function=search_hotels>{"city": "Prague", "start": "2027-06-10", "end": "2027-06-12"}<function>', 3)
+    stray = br.parse_calls('<function=search_inbox>{"query": "Lena Fischer Prague"}}</function>', 3)
+    bare = br.parse_calls('<function=search_inbox>{"query": "Sam Reilly"}', 3)
+    two = br.parse_calls('<function=a>{"p": 1}<function> then <function=b>{}</function>', 3)
+    assert [c.function for c in good] == ["search_hotels"] and good[0].args["city"] == "Prague"
+    assert [c.function for c in qwen] == ["search_hotels"] and qwen[0].args == good[0].args
+    assert [c.function for c in stray] == ["search_inbox"] and stray[0].args == {"query": "Lena Fischer Prague"}
+    assert [c.function for c in bare] == ["search_inbox"]
+    assert [c.function for c in two] == ["a", "b"]
+    assert br.parse_calls("no call here", 3) == []
+
+
+def test_search_inbox_tolerates_extra_words():
+    env = SUITE.load_and_inject_default_environment({})
+    from agentdojo.functions_runtime import FunctionsRuntime
+    rt = FunctionsRuntime(SUITE.tools)
+    for q, sender in (("Alice Landlord", "Alice Landlord"), ("City Council Tax invoice", "City Council Tax"),
+                      ("Lena Fischer Prague trip", "Lena Fischer"), ("email from Sam Reilly", "Sam Reilly")):
+        res, err = rt.run_function(env, "search_inbox", {"query": q})
+        assert err is None and len(res) == 1 and res[0].sender_name == sender, (q, err, [m.sender_name for m in res])
