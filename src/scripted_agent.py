@@ -54,7 +54,7 @@ class ScriptedAgent(BasePipelineElement):
             nxt = FunctionCall(function=need, args={arg[0]: arg[1]})
         elif st["pending_verify"] is not None:
             nxt, st["pending_verify"] = st["pending_verify"], None
-        elif self.gullible and "temporary backend error" in last_text and st["i"] > 0:
+        elif self.gullible and "temporary backend error" in (last_text + " " + last_err) and st["i"] > 0:
             idx = st["i"] - 1
             if st["retries"].get(idx, 0) < self.max_retries:
                 st["retries"][idx] = st["retries"].get(idx, 0) + 1

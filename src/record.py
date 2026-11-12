@@ -37,12 +37,23 @@ def serialize_messages(messages) -> list[dict]:
     return out
 
 
+TOOL_LEVEL_ATTACKS = {"endpoint"}       # conditions that compromise the runtime, not the data
+
+
 def injections_for(suite, user_task, attack_name: str | None, pipeline) -> dict[str, str]:
-    if attack_name is None:
+    if attack_name is None or attack_name in TOOL_LEVEL_ATTACKS:
         return {}
     attack = load_attack(attack_name, suite, pipeline)
     injection_task = next(iter(suite.injection_tasks.values()))
     return attack.attack(user_task, injection_task)
+
+
+def make_runtime(suite, attack_name: str | None, presets: dict, counter: TokenCounter):
+    """The runtime the recorded run executes its calls on: AgentDojo's for every data-level condition, the
+    compromised one for the tool-level condition."""
+    if attack_name == "endpoint":
+        return budget_attacks.CompromisedRuntime(suite.tools, counter, presets["L"], config.UNTRUSTED_TOOLS, presets.get("E", 1))
+    return FunctionsRuntime(suite.tools)
 
 
 def run_task(suite, user_task, attack_name: str | None, make_llm, presets: dict, counter: TokenCounter,
@@ -56,7 +67,7 @@ def run_task(suite, user_task, attack_name: str | None, make_llm, presets: dict,
     task_env = user_task.init_environment(env)
     pre = task_env.model_copy(deep=True)
     gt_names = [c.function for c in user_task.ground_truth(pre)]
-    runtime = FunctionsRuntime(suite.tools)
+    runtime = make_runtime(suite, attack_name, presets, counter)
     ledger = Ledger(B=B, w=presets["w"])
     extra = {"ledger": ledger, "executed": []}
     pipeline = build_pipeline(llm, presets, counter, policy, gt_names, host_verify, context_limit)
@@ -84,6 +95,7 @@ def run_task(suite, user_task, attack_name: str | None, make_llm, presets: dict,
         "ledger": ledger.summary(), "steps": [asdict(s) for s in ledger.steps], "executed": executed,
         "queued_at_cut": queued, "cut_reason": cut_reason, "utility": utility, **outcomes,
         "retries": retries, "ask_user_calls": sum(1 for c in executed if c["function"] == "ask_user"),
+        "tool_errors": sum(1 for c in executed if c.get("error") is not None),
         "refused_total": sum(len(s.refused) for s in ledger.steps),
         "milestones": _final_milestones(executed, gt_names), "gt_len": len(gt_names),
         "messages": serialize_messages(messages),
@@ -116,7 +128,7 @@ def load_record(path: Path) -> dict:
 
 SUMMARY_COLS = ["task_id", "family", "attack", "model", "utility", "spent", "n_steps", "tool_calls_total",
                 "prompt_tokens_total", "max_prompt_tokens", "end_reason", "cut_reason", "g2_open_hold", "open_holds",
-                "dup_payment", "n_consequential", "retries", "ask_user_calls", "refused_total", "milestones", "gt_len"]
+                "dup_payment", "n_consequential", "retries", "ask_user_calls", "tool_errors", "refused_total", "milestones", "gt_len"]
 
 
 def summary_row(rec: dict) -> dict:
@@ -143,30 +155,49 @@ def records_version(root: Path, model_tag: str) -> str | None:
 
 def record_grid(suite, task_ids, conditions, make_llm, presets, counter, root: Path, model_tag: str,
                 host_verify: bool = True, context_limit: int | None = None, force_rerun: bool = False,
-                log=print) -> pd.DataFrame:
-    """A record on disk is reused only if it carries the current runtime version; otherwise it is re-recorded."""
-    rows = []
-    n_new = n_reused = 0
-    for cond in conditions:
+                log=print, workers: int = 1) -> pd.DataFrame:
+    """A record on disk is reused only if it carries the current runtime version; otherwise it is re-recorded.
+    With workers > 1 the (condition, task) runs go through a thread pool: each run has its own environment,
+    runtime, ledger and pipeline, and the model server batches the concurrent requests."""
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+
+    def one(job):
+        cond, tid = job
         attack_name = config.ATTACK_BY_CONDITION[cond]
-        for tid in task_ids:
-            path = record_path(root, model_tag, cond, tid)
-            if path.exists() and not force_rerun:
-                old = load_record(path)
-                if old.get("runtime_version") == config.RUNTIME_VERSION:
-                    rows.append(summary_row(old)); n_reused += 1
-                    continue
-            task = suite.user_tasks[tid]
-            rec = run_task(suite, task, attack_name, make_llm, presets, counter, None, None, host_verify,
-                           context_limit, model_tag)
-            rec["condition"] = cond
-            save_record(path, rec)
-            r = summary_row(rec)
-            rows.append(r); n_new += 1
-            log(f"{cond} {tid} {rec['family']} utility={r['utility']} spent={r['spent']} steps={r['n_steps']} "
+        path = record_path(root, model_tag, cond, tid)
+        if path.exists() and not force_rerun:
+            old = load_record(path)
+            if old.get("runtime_version") == config.RUNTIME_VERSION:
+                return "reused", summary_row(old), None
+        task = suite.user_tasks[tid]
+        rec = run_task(suite, task, attack_name, make_llm, presets, counter, None, None, host_verify, context_limit, model_tag)
+        rec["condition"] = cond
+        save_record(path, rec)
+        r = summary_row(rec)
+        line = (f"{cond} {tid} {rec['family']} utility={r['utility']} spent={r['spent']} steps={r['n_steps']} "
                 f"end={r['end_reason']} open_holds={r['open_holds']} retries={r['retries']} asks={r['ask_user_calls']}")
+        return "new", r, line
+
+    jobs = [(cond, tid) for cond in conditions for tid in task_ids]
+    by_job, n_new, n_reused = {}, 0, 0
+    def take(job, result):
+        nonlocal n_new, n_reused
+        status, r, line = result
+        by_job[job] = r
+        if status == "new":
+            n_new += 1; log(f"[{n_new + n_reused}/{len(jobs)}] {line}")
+        else:
+            n_reused += 1
+    if workers > 1:
+        with ThreadPoolExecutor(max_workers=workers) as ex:
+            futures = {ex.submit(one, j): j for j in jobs}
+            for fut in as_completed(futures):
+                take(futures[fut], fut.result())
+    else:
+        for j in jobs:
+            take(j, one(j))
     log(f"records: {n_new} recorded now, {n_reused} reused (runtime version {config.RUNTIME_VERSION})")
-    df = pd.DataFrame(rows)
+    df = pd.DataFrame([by_job[j] for j in jobs])
     df.insert(2, "condition", [c for c in conditions for _ in task_ids])
     return df
 

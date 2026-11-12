@@ -1,0 +1,3 @@
+condition,n,mean_spent_TE,cost_factor_vs_A0,mean_steps,extra_steps_vs_A0,mean_retries,mean_ask_user,utility_pct,open_hold_pct,dup_payment_pct,ended_by_ceiling_pct,max_prompt_tokens
+A0,48,16971.0,1.0,5.38,0.0,0.0,0.0,89.6,8.3,0.0,0.0,3666
+A7,48,29069.0,1.68,6.94,1.56,1.25,0.0,95.8,0.0,0.0,0.0,6188

@@ -1,0 +1,9 @@
+condition,runs,H_max_refusals,k_max_refusals,unverified_refusals,runs_with_flood,max_hold_attempts,max_tool_calls,open_hold_runs
+A0,48,0,0,0,0,2,7,4
+A1,48,0,0,1,0,2,10,1
+A2,48,0,0,0,0,2,7,4
+A3,48,0,0,0,0,2,9,0
+A123,48,0,0,3,0,2,10,4
+A5,48,0,0,0,0,2,8,0
+A6,48,9,0,4,1,11,25,2
+A7,48,0,0,1,0,2,10,0

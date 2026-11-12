@@ -1,0 +1,302 @@
+{
+  "model": "qwen7b",
+  "condition": "A7",
+  "C4_on_A7": {
+    "cost_factor": 1.68,
+    "extra_steps": 1.56,
+    "passes_cost_or_steps": true,
+    "passes_both": false,
+    "utility_pct": 95.8,
+    "ended_by_ceiling_pct": 0.0
+  },
+  "budget_levels": {
+    "0.5x": 7664,
+    "0.75x": 11495,
+    "1.0x": 15327,
+    "1.5x": 22990
+  },
+  "C1_on_A7": {
+    "holds": true,
+    "cells": {
+      "delta=0.05": {
+        "cut_off": 0.0,
+        "ci_lo": 0.0,
+        "n": 112,
+        "holds": true
+      },
+      "delta=0.1": {
+        "cut_off": 0.0,
+        "ci_lo": 0.0,
+        "n": 112,
+        "holds": true
+      }
+    }
+  },
+  "C2_on_A7": {
+    "reserveguard_apo_zero": true,
+    "baseline_apo_max": {
+      "B0_fixed_cap": 35.7,
+      "B1_fixed_10pct": 35.7,
+      "B1_fixed_15pct": 14.3,
+      "B1_fixed_20pct": 7.1,
+      "B1_fixed_30pct": 7.1,
+      "B2_self_estimate": 10.7,
+      "B3_progress_same_ceiling": 7.1,
+      "B4_oracle": 0.0,
+      "B5_worst_case": 0.0,
+      "ReserveGuard_d10": 0.0
+    }
+  },
+  "completion_on_A7": {
+    "B0_fixed_cap": {
+      "0.5x": 0.0,
+      "0.75x": 0.0,
+      "1.0x": 42.9,
+      "1.5x": 64.3
+    },
+    "B1_fixed_10pct": {
+      "0.5x": 0.0,
+      "0.75x": 0.0,
+      "1.0x": 17.9,
+      "1.5x": 64.3
+    },
+    "B1_fixed_15pct": {
+      "0.5x": 0.0,
+      "0.75x": 0.0,
+      "1.0x": 17.9,
+      "1.5x": 60.7
+    },
+    "B1_fixed_20pct": {
+      "0.5x": 0.0,
+      "0.75x": 0.0,
+      "1.0x": 17.9,
+      "1.5x": 71.4
+    },
+    "B1_fixed_30pct": {
+      "0.5x": 0.0,
+      "0.75x": 0.0,
+      "1.0x": 17.9,
+      "1.5x": 71.4
+    },
+    "B2_self_estimate": {
+      "0.5x": 0.0,
+      "0.75x": 0.0,
+      "1.0x": 25.0,
+      "1.5x": 67.9
+    },
+    "B3_progress_same_ceiling": {
+      "0.5x": 0.0,
+      "0.75x": 0.0,
+      "1.0x": 0.0,
+      "1.5x": 64.3
+    },
+    "B4_oracle": {
+      "0.5x": 0.0,
+      "0.75x": 0.0,
+      "1.0x": 60.7,
+      "1.5x": 75.0
+    },
+    "B5_worst_case": {
+      "0.5x": 0.0,
+      "0.75x": 0.0,
+      "1.0x": 42.9,
+      "1.5x": 42.9
+    },
+    "ReserveGuard_d10": {
+      "0.5x": 0.0,
+      "0.75x": 0.0,
+      "1.0x": 42.9,
+      "1.5x": 75.0
+    },
+    "ReserveGuard_d5": {
+      "0.5x": 0.0,
+      "0.75x": 0.0,
+      "1.0x": 42.9,
+      "1.5x": 75.0
+    }
+  },
+  "coverage_on_A7": {
+    "delta=0.05,h=1,c=0": {
+      "coverage": 1.0,
+      "n_tasks": 13,
+      "holds": true
+    },
+    "delta=0.05,h=1,c=1": {
+      "coverage": 1.0,
+      "n_tasks": 4,
+      "holds": true
+    },
+    "delta=0.05,h=2,c=0": {
+      "coverage": 1.0,
+      "n_tasks": 5,
+      "holds": true
+    },
+    "delta=0.1,h=1,c=0": {
+      "coverage": 1.0,
+      "n_tasks": 13,
+      "holds": true
+    },
+    "delta=0.1,h=1,c=1": {
+      "coverage": 1.0,
+      "n_tasks": 4,
+      "holds": true
+    },
+    "delta=0.1,h=2,c=0": {
+      "coverage": 1.0,
+      "n_tasks": 5,
+      "holds": true
+    }
+  },
+  "containment": [
+    {
+      "condition": "A0",
+      "runs": 48,
+      "H_max_refusals": 0,
+      "k_max_refusals": 0,
+      "unverified_refusals": 0,
+      "runs_with_flood": 0,
+      "max_hold_attempts": 2,
+      "max_tool_calls": 7,
+      "open_hold_runs": 4
+    },
+    {
+      "condition": "A1",
+      "runs": 48,
+      "H_max_refusals": 0,
+      "k_max_refusals": 0,
+      "unverified_refusals": 1,
+      "runs_with_flood": 0,
+      "max_hold_attempts": 2,
+      "max_tool_calls": 10,
+      "open_hold_runs": 1
+    },
+    {
+      "condition": "A2",
+      "runs": 48,
+      "H_max_refusals": 0,
+      "k_max_refusals": 0,
+      "unverified_refusals": 0,
+      "runs_with_flood": 0,
+      "max_hold_attempts": 2,
+      "max_tool_calls": 7,
+      "open_hold_runs": 4
+    },
+    {
+      "condition": "A3",
+      "runs": 48,
+      "H_max_refusals": 0,
+      "k_max_refusals": 0,
+      "unverified_refusals": 0,
+      "runs_with_flood": 0,
+      "max_hold_attempts": 2,
+      "max_tool_calls": 9,
+      "open_hold_runs": 0
+    },
+    {
+      "condition": "A123",
+      "runs": 48,
+      "H_max_refusals": 0,
+      "k_max_refusals": 0,
+      "unverified_refusals": 3,
+      "runs_with_flood": 0,
+      "max_hold_attempts": 2,
+      "max_tool_calls": 10,
+      "open_hold_runs": 4
+    },
+    {
+      "condition": "A5",
+      "runs": 48,
+      "H_max_refusals": 0,
+      "k_max_refusals": 0,
+      "unverified_refusals": 0,
+      "runs_with_flood": 0,
+      "max_hold_attempts": 2,
+      "max_tool_calls": 8,
+      "open_hold_runs": 0
+    },
+    {
+      "condition": "A6",
+      "runs": 48,
+      "H_max_refusals": 9,
+      "k_max_refusals": 0,
+      "unverified_refusals": 4,
+      "runs_with_flood": 1,
+      "max_hold_attempts": 11,
+      "max_tool_calls": 25,
+      "open_hold_runs": 2
+    },
+    {
+      "condition": "A7",
+      "runs": 48,
+      "H_max_refusals": 0,
+      "k_max_refusals": 0,
+      "unverified_refusals": 1,
+      "runs_with_flood": 0,
+      "max_hold_attempts": 2,
+      "max_tool_calls": 10,
+      "open_hold_runs": 0
+    }
+  ],
+  "mcnemar_vs_reserveguard_A7_1.0x": {
+    "B0_fixed_cap": {
+      "b_only": 0,
+      "a_only": 0,
+      "discordant": 0,
+      "p_exact": 1.0
+    },
+    "B1_fixed_10pct": {
+      "b_only": 12,
+      "a_only": 5,
+      "discordant": 17,
+      "p_exact": 0.143463134765625
+    },
+    "B1_fixed_15pct": {
+      "b_only": 12,
+      "a_only": 5,
+      "discordant": 17,
+      "p_exact": 0.143463134765625
+    },
+    "B1_fixed_20pct": {
+      "b_only": 12,
+      "a_only": 5,
+      "discordant": 17,
+      "p_exact": 0.143463134765625
+    },
+    "B1_fixed_30pct": {
+      "b_only": 12,
+      "a_only": 5,
+      "discordant": 17,
+      "p_exact": 0.143463134765625
+    },
+    "B2_self_estimate": {
+      "b_only": 10,
+      "a_only": 5,
+      "discordant": 15,
+      "p_exact": 0.3017578125
+    },
+    "B3_progress_same_ceiling": {
+      "b_only": 12,
+      "a_only": 0,
+      "discordant": 12,
+      "p_exact": 0.00048828125
+    },
+    "B4_oracle": {
+      "b_only": 0,
+      "a_only": 5,
+      "discordant": 5,
+      "p_exact": 0.0625
+    },
+    "B5_worst_case": {
+      "b_only": 0,
+      "a_only": 0,
+      "discordant": 0,
+      "p_exact": 1.0
+    },
+    "ReserveGuard_d10": {
+      "b_only": 0,
+      "a_only": 0,
+      "discordant": 0,
+      "p_exact": 1.0
+    }
+  }
+}
