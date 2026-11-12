@@ -1,0 +1,14 @@
+\begin{tabular}{lrrrrrrrr}
+\toprule
+Condition & Cost factor & Extra steps & Retries & Max prompt (tok.) & Completed (\%) & Open hold at end (\%) & Refusals: hold cap & Refusals: unverified \\
+\midrule
+Clean & 1.000000 & 0.000000 & 0.000000 & 3666 & 89.600000 & 8.300000 & 0 & 0 \\
+Padding & 1.210000 & 0.080000 & 0.020000 & 5788 & 95.800000 & 2.100000 & 0 & 1 \\
+Fake error & 0.960000 & -0.310000 & 0.000000 & 3817 & 89.600000 & 8.300000 & 0 & 0 \\
+Clarification bait & 1.090000 & 0.190000 & 0.000000 & 4385 & 93.800000 & 0.000000 & 0 & 0 \\
+Combined & 1.200000 & 0.040000 & 0.000000 & 5128 & 85.400000 & 8.300000 & 0 & 3 \\
+Chaining & 0.940000 & -0.670000 & 0.000000 & 4313 & 77.100000 & 0.000000 & 0 & 0 \\
+Chaining + padding & 1.390000 & 0.440000 & 0.080000 & 7286 & 93.800000 & 4.200000 & 9 & 4 \\
+Compromised endpoint & 1.680000 & 1.560000 & 1.250000 & 6188 & 95.800000 & 0.000000 & 0 & 1 \\
+\bottomrule
+\end{tabular}

@@ -1,0 +1,9 @@
+Condition,Cost factor,Extra steps,Retries,Max prompt (tok.),Completed (%),Open hold at end (%),Refusals: hold cap,Refusals: unverified
+Clean,1.0,0.0,0.0,3666,89.6,8.3,0,0
+Padding,1.21,0.08,0.02,5788,95.8,2.1,0,1
+Fake error,0.96,-0.31,0.0,3817,89.6,8.3,0,0
+Clarification bait,1.09,0.19,0.0,4385,93.8,0.0,0,0
+Combined,1.2,0.04,0.0,5128,85.4,8.3,0,3
+Chaining,0.94,-0.67,0.0,4313,77.1,0.0,0,0
+Chaining + padding,1.39,0.44,0.08,7286,93.8,4.2,9,4
+Compromised endpoint,1.68,1.56,1.25,6188,95.8,0.0,0,1
