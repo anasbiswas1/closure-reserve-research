@@ -23,14 +23,14 @@ POLICY_NAMES = {"B0_fixed_cap": "Fixed cap", "B1_fixed_10pct": "Fixed reserve (1
                 "ReserveGuard_d10": "ReserveGuard ($\\delta$=0.10)", "B4_oracle": "Oracle"}
 FIG3_POLICIES = ["ReserveGuard_d5", "ReserveGuard_d10", "B4_oracle", "B5_worst_case", "B0_fixed_cap", "B1_fixed_30pct",
                  "B2_self_estimate", "B3_progress_same_ceiling"]
-STYLE = {"ReserveGuard_d5": dict(color="#1b5e20", lw=2.4, marker="o", ms=5.5, zorder=6),
-         "ReserveGuard_d10": dict(color="#43a047", lw=2.4, marker="s", ms=5.5, zorder=6),
-         "B4_oracle": dict(color="#212121", lw=1.2, ls=(0, (4, 2)), marker="*", ms=7.5, zorder=8),
-         "B5_worst_case": dict(color="#6d4c41", lw=1.6, marker="^", ms=5, zorder=4),
-         "B0_fixed_cap": dict(color="#c62828", lw=1.6, marker="v", ms=5, zorder=4),
-         "B1_fixed_30pct": dict(color="#ef6c00", lw=1.6, marker="D", ms=4.5, zorder=4),
-         "B2_self_estimate": dict(color="#6a1b9a", lw=1.6, marker="P", ms=5.5, zorder=4),
-         "B3_progress_same_ceiling": dict(color="#1565c0", lw=1.6, marker="X", ms=5.5, zorder=4)}
+STYLE = {"ReserveGuard_d5": dict(color="#1b5e20", lw=2.0, marker="o", ms=4.2, zorder=6),
+         "ReserveGuard_d10": dict(color="#43a047", lw=2.0, marker="s", ms=4.2, zorder=6),
+         "B4_oracle": dict(color="#212121", lw=1.0, ls=(0, (4, 2)), marker="*", ms=6.0, zorder=8),
+         "B5_worst_case": dict(color="#6d4c41", lw=1.2, marker="^", ms=3.8, zorder=4),
+         "B0_fixed_cap": dict(color="#c62828", lw=1.2, marker="v", ms=3.8, zorder=4),
+         "B1_fixed_30pct": dict(color="#ef6c00", lw=1.2, marker="D", ms=3.4, zorder=4),
+         "B2_self_estimate": dict(color="#6a1b9a", lw=1.2, marker="P", ms=4.2, zorder=4),
+         "B3_progress_same_ceiling": dict(color="#1565c0", lw=1.2, marker="X", ms=4.2, zorder=4)}
 LEVELS = ["0.5x", "0.75x", "1.0x", "1.5x"]
 LEVEL_X = [0.5, 0.75, 1.0, 1.5]
 
@@ -124,7 +124,7 @@ def fig_gate_mechanism(reports: Path, tag: str, out_dir: Path, task_id: str = "u
     R = float(reserves["0.1"]["verified"]["1,0"]["R"])
     ver = {int(r["t"]): r for r in rows if r["kind"] == "verified"}
 
-    fig, axes = plt.subplots(1, 2, figsize=(7.1, 2.7), sharey=True)
+    fig, axes = plt.subplots(2, 1, figsize=(3.5, 3.9), sharex=False)
     for ax, (name, row, color, is_rg) in zip(axes, [("ReserveGuard ($\\delta$=0.10)", rg, "#2e7d32", True), ("Fixed cap", fc, "#c62828", False)]):
         cut = int(row["cut"])
         shown = steps[:cut] if is_rg else steps[:cut + 1]          # the fixed cap pays for the call that overspends
@@ -146,26 +146,27 @@ def fig_gate_mechanism(reports: Path, tag: str, out_dir: Path, task_id: str = "u
         closure_cost = float(ver[cut]["cost"])
         if is_rg:
             ax.bar(x_cl, closure_cost, bottom=base, color=color, width=0.62, label="verified closure")
-            ax.text(x_cl, base + closure_cost + 120, "closure: verify\nand confirm", ha="center", va="bottom", fontsize=6, color=color)
+            ax.text(x_cl + 0.4, base + closure_cost / 2, "closure:\nverify and\nconfirm", ha="left", va="center", fontsize=6, color=color)
             ax.axhspan(B - R, B, color="#a5d6a7", alpha=0.45, lw=0)
-            ax.text(0.62, B - R + 180, f"reserve $R(1,0)$ = {R:,.0f} TE\nkept for the closure", fontsize=6.2, va="bottom", color="#1b5e20")
-            ax.annotate("gate refuses\nmodel call 3", xy=(cut + 0.42, base + 100), xytext=(cut + 0.5, base - 2300), fontsize=6.3, color="#1b5e20",
+            ax.text(4.3, B - R / 2, f"reserve $R(1,0)$\n= {R:,.0f} TE\nkept for the\nclosure", fontsize=6.2, va="center", ha="left", color="#1b5e20")
+            ax.annotate("gate refuses\nmodel call 3", xy=(cut + 0.42, base + 100), xytext=(cut + 0.6, base - 2900), fontsize=6.2, color="#1b5e20",
                         arrowprops=dict(arrowstyle="-|>", color="#1b5e20", lw=0.9))
             ax.set_xticks(list(range(1, x_cl + 1))); ax.set_xticklabels([str(t) for t in range(1, x_cl)] + ["closure"])
         else:
-            ax.text(x_cl, 400, "no budget left:\nthe hold stays open", ha="center", va="bottom", fontsize=6.2, color=color)
-            ax.annotate(f"call {cut + 1} overspends: cut,\nits calls are not executed", xy=(cut + 1, B + 50), xytext=(cut - 1.9, B + 1500), fontsize=6.3, color="#c62828",
+            ax.text(x_cl, 400, "no budget left:\nhold stays open", ha="center", va="bottom", fontsize=6.0, color=color)
+            ax.annotate(f"call {cut + 1} overspends: cut,\ncalls not executed", xy=(cut + 1, B + 50), xytext=(cut - 1.6, B + 1400), fontsize=6.2, color="#c62828",
                         arrowprops=dict(arrowstyle="-|>", color="#c62828", lw=0.9))
             ax.set_xticks(list(range(1, x_cl + 1))); ax.set_xticklabels([str(t) for t in range(1, x_cl)] + ["closure"])
         ax.axhline(B, color="#212121", lw=1.0, ls="--")
         ax.text(0.62, B + 120, f"budget $B$ = {B:,} TE", fontsize=6.4, va="bottom")
-        ax.set_title(f"{name}: {'task completed, no open hold' if row['utility'] else 'hold abandoned'}", fontsize=8, color=color)
+        ax.set_title(f"{name}: {'task completed, no open hold' if row['utility'] else 'hold abandoned'}", fontsize=7.6, color=color)
         ax.set_xlabel("Model call")
+        ax.set_ylabel("Cumulative spend (TE)")
         ax.set_ylim(0, B * 1.3)
-    axes[0].set_ylabel("Cumulative spend (TE)")
+        ax.set_xlim(0.3, 5.7)
     h1, l1 = axes[0].get_legend_handles_labels()
-    fig.legend(h1, l1, loc="lower center", ncol=4, frameon=False, bbox_to_anchor=(0.5, -0.06))
-    fig.tight_layout(rect=(0, 0.05, 1, 1), w_pad=1.2)
+    fig.legend(h1, l1, loc="lower center", ncol=2, frameon=False, bbox_to_anchor=(0.5, -0.03))
+    fig.tight_layout(rect=(0, 0.06, 1, 1), h_pad=1.0)
     return save(fig, out_dir, "fig2_gate_mechanism")
 
 
@@ -175,10 +176,10 @@ def fig_completion_apo(reports: Path, tag: str, out_dir: Path, conditions=("A0",
     m4 = pd.read_csv(reports / f"04_metrics_{tag}.csv") if (reports / f"04_metrics_{tag}.csv").exists() else pd.DataFrame()
     m = pd.concat([m3, m4], ignore_index=True)
     conds = [c for c in conditions if c in set(m.condition)]
-    fig, axes = plt.subplots(2, len(conds), figsize=(7.1, 3.9), sharex=True, sharey="row")
+    fig, axes = plt.subplots(2, len(conds), figsize=(5.3, 2.5), sharex=True, sharey="row")
     axes = np.atleast_2d(axes)
     for j, cond in enumerate(conds):
-        for i, (col, ylab) in enumerate([("utility_pct", "Completion (%)"), ("apo_pct", "Adverse outcomes (%)")]):
+        for i, (col, ylab) in enumerate([("utility_pct", "Completion (%)"), ("apo_pct", "Adverse (%)")]):
             ax = axes[i, j]
             for pol in FIG3_POLICIES:
                 g = m[(m.condition == cond) & (m.policy == pol)].set_index("B_level").reindex(LEVELS)
@@ -191,12 +192,13 @@ def fig_completion_apo(reports: Path, tag: str, out_dir: Path, conditions=("A0",
                 ax.set_title(CONDITION_NAMES[cond])
             if j == 0:
                 ax.set_ylabel(ylab)
-            if i == 1:
+            if i == 1 and j == len(conds) // 2:
                 ax.set_xlabel("Budget ($\\times$ median clean cost)")
             ax.set_ylim(-3, 103) if i == 0 else ax.set_ylim(-2, 62)
     handles, labels = axes[0, 0].get_legend_handles_labels()
-    fig.legend(handles, labels, loc="lower center", ncol=4, frameon=False, bbox_to_anchor=(0.5, -0.045))
-    fig.tight_layout(rect=(0, 0.07, 1, 1), h_pad=0.6, w_pad=0.8)
+    fig.legend(handles, labels, loc="lower center", ncol=4, frameon=False, bbox_to_anchor=(0.5, -0.05), fontsize=6.0,
+               handlelength=2.0, columnspacing=0.8, handletextpad=0.5)
+    fig.tight_layout(rect=(0, 0.08, 1, 1), h_pad=0.7, w_pad=0.5)
     return save(fig, out_dir, "fig3_completion_adverse")
 
 
