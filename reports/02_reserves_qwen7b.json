@@ -37,41 +37,45 @@
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "0,1": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "1,0": {
-     "R": 8641.0,
+     "R": 5764.0,
      "n": 20,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "cell",
      "worst_case": false,
-     "bound": 16024
+     "bound": 16024,
+     "n_cell": 20
     },
     "1,1": {
      "R": 8641.0,
      "n": 20,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "h",
      "worst_case": false,
-     "bound": 16024
+     "bound": 16024,
+     "n_cell": 6
     },
     "2,0": {
      "R": 8641.0,
      "n": 20,
      "unit": "task",
-     "pooled_h": true,
+     "pooled": "h>=1",
      "worst_case": false,
      "bound": 16124,
      "n_cell": 6
@@ -80,10 +84,10 @@
      "R": 8641.0,
      "n": 20,
      "unit": "task",
-     "pooled_h": true,
+     "pooled": "h>=1",
      "worst_case": false,
      "bound": 16124,
-     "n_cell": 6
+     "n_cell": 0
     }
    },
    "settle": {
@@ -91,54 +95,60 @@
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "0,1": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "1,0": {
      "R": 100,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 100,
+     "n_cell": 0,
      "exact": true
     },
     "1,1": {
      "R": 100,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 100,
+     "n_cell": 0,
      "exact": true
     },
     "2,0": {
      "R": 200,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 200,
+     "n_cell": 0,
      "exact": true
     },
     "2,1": {
      "R": 200,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 200,
+     "n_cell": 0,
      "exact": true
     }
    },
@@ -147,54 +157,60 @@
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "0,1": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "1,0": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "1,1": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "2,0": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "2,1": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     }
    },
@@ -203,54 +219,60 @@
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "0,1": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "1,0": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "1,1": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "2,0": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "2,1": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     }
    }
@@ -261,41 +283,45 @@
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "0,1": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "1,0": {
-     "R": 6810.0,
+     "R": 5697.0,
      "n": 20,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "cell",
      "worst_case": false,
-     "bound": 16024
+     "bound": 16024,
+     "n_cell": 20
     },
     "1,1": {
      "R": 6810.0,
      "n": 20,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "h",
      "worst_case": false,
-     "bound": 16024
+     "bound": 16024,
+     "n_cell": 6
     },
     "2,0": {
      "R": 8297.0,
      "n": 20,
      "unit": "task",
-     "pooled_h": true,
+     "pooled": "h>=1",
      "worst_case": false,
      "bound": 16124,
      "n_cell": 6
@@ -304,10 +330,10 @@
      "R": 8297.0,
      "n": 20,
      "unit": "task",
-     "pooled_h": true,
+     "pooled": "h>=1",
      "worst_case": false,
      "bound": 16124,
-     "n_cell": 6
+     "n_cell": 0
     }
    },
    "settle": {
@@ -315,54 +341,60 @@
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "0,1": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "1,0": {
      "R": 100,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 100,
+     "n_cell": 0,
      "exact": true
     },
     "1,1": {
      "R": 100,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 100,
+     "n_cell": 0,
      "exact": true
     },
     "2,0": {
      "R": 200,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 200,
+     "n_cell": 0,
      "exact": true
     },
     "2,1": {
      "R": 200,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 200,
+     "n_cell": 0,
      "exact": true
     }
    },
@@ -371,54 +403,60 @@
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "0,1": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "1,0": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "1,1": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "2,0": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "2,1": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     }
    },
@@ -427,54 +465,60 @@
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "0,1": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "1,0": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "1,1": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "2,0": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "2,1": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     }
    }
@@ -487,55 +531,57 @@
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "0,1": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "1,0": {
      "R": 16024,
-     "n": 20,
+     "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": true,
      "bound": 16024,
-     "n_pooled": 20
+     "n_cell": 20
     },
     "1,1": {
      "R": 16024,
-     "n": 20,
+     "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": true,
      "bound": 16024,
-     "n_pooled": 20
+     "n_cell": 6
     },
     "2,0": {
      "R": 16124,
-     "n": 6,
+     "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": true,
      "bound": 16124,
-     "n_pooled": 20
+     "n_cell": 6
     },
     "2,1": {
      "R": 16124,
-     "n": 6,
+     "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": true,
      "bound": 16124,
-     "n_pooled": 20
+     "n_cell": 0
     }
    },
    "settle": {
@@ -543,54 +589,60 @@
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "0,1": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "1,0": {
      "R": 100,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 100,
+     "n_cell": 0,
      "exact": true
     },
     "1,1": {
      "R": 100,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 100,
+     "n_cell": 0,
      "exact": true
     },
     "2,0": {
      "R": 200,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 200,
+     "n_cell": 0,
      "exact": true
     },
     "2,1": {
      "R": 200,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 200,
+     "n_cell": 0,
      "exact": true
     }
    },
@@ -599,54 +651,60 @@
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "0,1": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "1,0": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "1,1": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "2,0": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "2,1": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     }
    },
@@ -655,54 +713,60 @@
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "0,1": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "1,0": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "1,1": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "2,0": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     },
     "2,1": {
      "R": 0,
      "n": 0,
      "unit": "task",
-     "pooled_h": false,
+     "pooled": "none",
      "worst_case": false,
      "bound": 0,
+     "n_cell": 0,
      "exact": true
     }
    }

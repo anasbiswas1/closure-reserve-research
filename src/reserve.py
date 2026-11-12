@@ -1,6 +1,6 @@
 """Certified closure reserves (plan v2.1, Section 6, revised). Split-conformal quantiles per Mondrian cell
-(kind, h) over task-level scores, pooling over h >= 1 before a worst-case fallback, a deterministic worst-case
-bound, bootstrap intervals over calibration tasks, and the coverage checks.
+(kind, h, c) over task-level scores, pooling over c, then over h >= 1, before a worst-case fallback; a
+deterministic worst-case bound, bootstrap intervals over calibration tasks, and the coverage checks.
 
 Revision 3 (after the second calibration): the exchangeable unit is the task, not the closure. The closure cost of
 a task barely changes between cuts and conditions (the snapshot at a given h is the same and decoding is
@@ -23,11 +23,11 @@ import config
 from closure import CLOSURE_PRESETS, CLOSURE_SYSTEM, KINDS, SETTLED_MAX
 
 CELLS_H = (0, 1, 2)
-CELLS_Q = (0, 1)          # q is kept in the keys for the lookups; it is always 0 since revision 2
+CELLS_Q = (0, 1)          # the second cell coordinate: confirmed bookings so far, bucketed 0 / 1+
 
 
-def q_bucket(q: int) -> int:
-    return 0 if q == 0 else 1
+def q_bucket(c: int) -> int:
+    return 0 if c == 0 else 1
 
 
 def n_required(delta: float) -> int:
@@ -80,20 +80,34 @@ def sigma_max_tokens(counter, presets: dict, suite) -> int:
 
 # ----------------------------------------------------------------------------- task-level scores
 def _verified(table: pd.DataFrame) -> pd.DataFrame:
-    v = table[(table.kind == "verified") & (table.h > 0)]
+    v = table[(table.kind == "verified") & (table.h > 0)].copy()
     if "cut_off" in v.columns:
         v = v[~v.cut_off.astype(bool)]
+    v["cb"] = v["confirmed_before"].map(q_bucket) if "confirmed_before" in v.columns else 0
     return v
 
 
-def task_scores(table: pd.DataFrame, h: int | None) -> pd.Series:
-    """One score per task: its largest verified-closure cost in cell h (h = None pools every h >= 1)."""
+def task_scores(table: pd.DataFrame, h: int | None, cb: int | None = None) -> pd.Series:
+    """One score per task: its largest verified-closure cost in cell (h, cb). cb = None pools over c (the h cell);
+    h = None pools every h >= 1."""
     v = _verified(table)
     if h is not None:
         v = v[v.h == h]
+    if cb is not None:
+        v = v[v.cb == cb]
     if not len(v):
         return pd.Series(dtype=float)
     return v.groupby("task_id")["cost"].max().astype(float)
+
+
+def cell_reserve(table: pd.DataFrame, h: int, cb: int, delta: float) -> tuple[float | None, int, str]:
+    """The conformal quantile for cell (h, cb) with the pooling chain: own cell, then the h cell, then h >= 1.
+    Returns (R or None, number of tasks used, pooling level)."""
+    for level, scores in (("cell", task_scores(table, h, cb)), ("h", task_scores(table, h, None)), ("h>=1", task_scores(table, None))):
+        R = conformal_quantile(scores, delta)
+        if R is not None:
+            return R, int(len(scores)), level
+    return None, int(len(task_scores(table, h, cb))), "none"
 
 
 def reserves_from_table(table: pd.DataFrame, deltas, presets: dict, counter, sigma_max_tokens: int) -> dict:
@@ -102,35 +116,27 @@ def reserves_from_table(table: pd.DataFrame, deltas, presets: dict, counter, sig
     out = {}
     for delta in deltas:
         d = {}
-        pooled_scores = task_scores(table, None)
         for kind in KINDS:
             d[kind] = {}
             for h in CELLS_H:
-                bound = worst_case_bound(kind, h, 0, presets, counter, sigma_max_tokens)
-                entry = {"R": bound, "n": 0, "unit": "task", "pooled_h": False, "worst_case": True, "bound": bound}
-                if kind in ("settle", "draft", "stop") or (kind == "verified" and h == 0):
-                    entry.update({"worst_case": False, "exact": True})     # deterministic classes
-                else:
-                    scores = task_scores(table, h)
-                    R = conformal_quantile(scores, delta)
-                    if R is not None:
-                        entry.update({"R": min(R, bound), "n": int(len(scores)), "worst_case": False})
+                for cb in CELLS_Q:
+                    bound = worst_case_bound(kind, h, cb, presets, counter, sigma_max_tokens)
+                    entry = {"R": bound, "n": 0, "unit": "task", "pooled": "none", "worst_case": True, "bound": bound,
+                             "n_cell": int(len(task_scores(table, h, cb))) if kind == "verified" and h > 0 else 0}
+                    if kind in ("settle", "draft", "stop") or (kind == "verified" and h == 0):
+                        entry.update({"worst_case": False, "exact": True})     # deterministic classes
                     else:
-                        Rp = conformal_quantile(pooled_scores, delta)
-                        if Rp is not None:
-                            entry.update({"R": min(Rp, bound), "n": int(len(pooled_scores)), "pooled_h": True, "worst_case": False,
-                                          "n_cell": int(len(scores))})
-                        else:
-                            entry.update({"n": int(len(scores)), "n_pooled": int(len(pooled_scores))})
-                for qb in CELLS_Q:
-                    d[kind][f"{h},{qb}"] = dict(entry)
+                        R, n, level = cell_reserve(table, h, cb, delta)
+                        if R is not None:
+                            entry.update({"R": min(R, bound), "n": n, "pooled": level, "worst_case": False})
+                    d[kind][f"{h},{cb}"] = entry
         out[str(delta)] = d
     return out
 
 
-def lookup(reserves: dict, delta: float, kind: str, h: int, q: int) -> float:
+def lookup(reserves: dict, delta: float, kind: str, h: int, c: int) -> float:
     h = min(h, max(CELLS_H))
-    return float(reserves[str(delta)][kind][f"{h},{q_bucket(q)}"]["R"])
+    return float(reserves[str(delta)][kind][f"{h},{q_bucket(c)}"]["R"])
 
 
 def bootstrap_reserves(table: pd.DataFrame, delta: float, n_boot: int = 200, seed: int = 0) -> pd.DataFrame:
@@ -142,20 +148,21 @@ def bootstrap_reserves(table: pd.DataFrame, delta: float, n_boot: int = 200, see
     per_task = {t: v[v.task_id == t] for t in tasks}
     rows = []
     for h in [x for x in CELLS_H if x > 0]:
-        vals, pooled_used = [], 0
-        for _ in range(n_boot):
-            sample = [rng.choice(tasks) for _ in tasks]
-            sub = pd.concat([per_task[t].assign(task_id=f"{t}#{i}") for i, t in enumerate(sample)])
-            R = conformal_quantile(task_scores(sub, h), delta)
-            if R is None:
-                R = conformal_quantile(task_scores(sub, None), delta)
-                pooled_used += 1
-            if R is not None:
-                vals.append(R)
-        if vals:
-            rows.append({"h": h, "n_boot": len(vals), "pooled_h_share": round(pooled_used / n_boot, 3),
-                         "R_median": float(np.median(vals)), "R_p2.5": float(np.percentile(vals, 2.5)),
-                         "R_p97.5": float(np.percentile(vals, 97.5))})
+        for cb in CELLS_Q:
+            if not len(task_scores(v, h, cb)):
+                continue
+            vals, pooled_used = [], 0
+            for _ in range(n_boot):
+                sample = [rng.choice(tasks) for _ in tasks]
+                sub = pd.concat([per_task[t].assign(task_id=f"{t}#{i}") for i, t in enumerate(sample)])
+                R, _, level = cell_reserve(sub, h, cb, delta)
+                if R is not None:
+                    vals.append(R)
+                    pooled_used += level != "cell"
+            if vals:
+                rows.append({"h": h, "c": cb, "n_boot": len(vals), "pooled_share": round(pooled_used / len(vals), 3),
+                             "R_median": float(np.median(vals)), "R_p2.5": float(np.percentile(vals, 2.5)),
+                             "R_p97.5": float(np.percentile(vals, 97.5))})
     return pd.DataFrame(rows)
 
 
@@ -167,7 +174,8 @@ def coverage(table: pd.DataFrame, reserves: dict, delta: float) -> pd.DataFrame:
     rows = []
     table = table[~((table.kind == "verified") & (table.h == 0))]      # the h = 0 verified closure is exact, not certified
     for (cond, kind), g in table.groupby(["condition", "kind"]):
-        covered = sum(1 for _, r in g.iterrows() if r["cost"] <= lookup(reserves, delta, kind, int(r["h"]), int(r["q"])))
+        covered = sum(1 for _, r in g.iterrows()
+                      if r["cost"] <= lookup(reserves, delta, kind, int(r["h"]), int(r.get("confirmed_before", 0))))
         p, lo, hi = wilson(covered, len(g))
         rows.append({"condition": cond, "kind": kind, "delta": delta, "n": len(g), "covered": covered,
                      "coverage": round(p, 4), "ci_lo": round(lo, 4), "ci_hi": round(hi, 4),
@@ -176,18 +184,19 @@ def coverage(table: pd.DataFrame, reserves: dict, delta: float) -> pd.DataFrame:
 
 
 def task_coverage(table: pd.DataFrame, reserves: dict, delta: float) -> pd.DataFrame:
-    """The certified statement on held-out tasks: per cell h, the share of test tasks whose largest verified-closure
-    cost in that cell (over every cut and condition) is at or below the reserve."""
+    """The certified statement on held-out tasks: per cell (h, c), the share of test tasks whose largest
+    verified-closure cost in that cell (over every cut and condition) is at or below the reserve."""
     from metrics import wilson
     rows = []
     for h in [x for x in CELLS_H if x > 0]:
-        scores = task_scores(table, h)
-        if not len(scores):
-            continue
-        R = lookup(reserves, delta, "verified", h, 0)
-        covered = int((scores <= R).sum())
-        p, lo, hi = wilson(covered, len(scores))
-        rows.append({"h": h, "delta": delta, "R": R, "n_tasks": int(len(scores)), "covered": covered,
-                     "coverage": round(p, 4), "ci_lo": round(lo, 4), "ci_hi": round(hi, 4), "target": 1 - delta,
-                     "max_score": float(scores.max()), "holds": bool(hi >= 1 - delta)})
+        for cb in CELLS_Q:
+            scores = task_scores(table, h, cb)
+            if not len(scores):
+                continue
+            R = lookup(reserves, delta, "verified", h, cb)
+            covered = int((scores <= R).sum())
+            p, lo, hi = wilson(covered, len(scores))
+            rows.append({"h": h, "c": cb, "delta": delta, "R": R, "n_tasks": int(len(scores)), "covered": covered,
+                         "coverage": round(p, 4), "ci_lo": round(lo, 4), "ci_hi": round(hi, 4), "target": 1 - delta,
+                         "max_score": float(scores.max()), "holds": bool(hi >= 1 - delta)})
     return pd.DataFrame(rows)

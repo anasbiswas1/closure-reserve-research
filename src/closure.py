@@ -86,8 +86,10 @@ def snapshot_text(sigma: dict) -> str:
 
 
 def cell_of(sigma: dict) -> tuple[int, int]:
-    """Mondrian cell (h, q): open holds; q is kept for the reserve tables and is always 0 in this revision."""
-    return len(sigma["pending"]), 0
+    """Mondrian cell (h, c): open holds, and confirmed bookings so far (bucketed as 0 / 1+ by the reserve code).
+    Both are trusted state. c separates the closures that only have to confirm the right hold from those that
+    must cancel a hold next to an existing confirmation, which cost about twice as much (revision 4)."""
+    return len(sigma["pending"]), sum(1 for h in sigma["settled"] if h["status"] == "CONFIRMED")
 
 
 def min_kind(h: int) -> str:

@@ -1,5 +1,7 @@
-delta,h,R,n_tasks,pooled_h,worst_case,bound,R_over_bound
-0.05,1,8641.0,20,False,False,16024,0.539
-0.05,2,8641.0,20,True,False,16124,0.536
-0.1,1,6810.0,20,False,False,16024,0.425
-0.1,2,8297.0,20,True,False,16124,0.515
+delta,h,c,R,n_cell,n_used,pooled,worst_case,bound,R_over_bound
+0.05,1,0,5764.0,20,20,cell,False,16024,0.36
+0.05,1,1,8641.0,6,20,h,False,16024,0.539
+0.05,2,0,8641.0,6,20,h>=1,False,16124,0.536
+0.1,1,0,5697.0,20,20,cell,False,16024,0.356
+0.1,1,1,6810.0,6,20,h,False,16024,0.425
+0.1,2,0,8297.0,6,20,h>=1,False,16124,0.515

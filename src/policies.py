@@ -1,7 +1,8 @@
 """Budget policies compared at the same budget B (plan v2.1, Section 7). Every policy exposes
 allow(remaining, cap, state) -> bool, called at the two points of the exact gate: before a model call (cap is the
 exact prompt plus m_out; state["h"] is the holds open now) and before the proposed calls are executed (cap is w per
-call; state["h"] is the holds they would leave open). state also carries the milestones, the spend so far and B.
+call; state["h"] is the holds they would leave open). state["c"] is the confirmed bookings at that point (the
+second cell coordinate). state also carries the milestones, the spend so far and B.
 Each policy also has a chooser(kinds, h, q, remaining, table_t) that picks the closure kind run at the cut."""
 from __future__ import annotations
 
@@ -94,8 +95,9 @@ class WorstCase(Policy):
 
     def allow(self, remaining, cap, state):
         # keep enough for the most useful closure of the state this step leads to: the verified closure when a
-        # hold is open (its reserve is the certified quantile, or the bound for B5), nothing when nothing is open
-        return remaining - cap >= self._R("verified", state["h"], 0)
+        # hold is open (its reserve is the certified quantile of the cell (h, c), or the bound for B5), nothing
+        # when nothing is open
+        return remaining - cap >= self._R("verified", state["h"], state.get("c", 0))
 
     def chooser(self, kinds, h, q, remaining, table_t):
         for k in ("verified", "settle", "draft", "stop"):

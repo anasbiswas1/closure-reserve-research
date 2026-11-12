@@ -178,12 +178,13 @@ def replay(rec: dict, policy, B: int, presets: dict, table: dict, chooser) -> di
     S = 0
     cut, point = None, "end"
     policy.bind(rec)
-    h_prev, ms_prev = 0, 0
+    h_prev, ms_prev, c_prev = 0, 0, 0
     for t, step in enumerate(steps, start=1):
         k = len(step["tool_calls"])
+        c_after = c_prev + sum(1 for c in step["tool_calls"] if c["function"] == "confirm_booking" and c.get("error") is None)
         if t >= 2:                                                     # point A: the model call itself
-            state = {"t": t - 1, "k": 0, "h": h_prev, "milestones": ms_prev, "gt_len": rec["gt_len"], "spent": S, "B": B,
-                     "point": "call", "next_step": step}
+            state = {"t": t - 1, "k": 0, "h": h_prev, "c": c_prev, "milestones": ms_prev, "gt_len": rec["gt_len"], "spent": S,
+                     "B": B, "point": "call", "next_step": step}
             if not policy.allow(B - S, cap_call(step, presets), state):
                 cut, point = t - 1, "call"
                 break
@@ -194,13 +195,13 @@ def replay(rec: dict, policy, B: int, presets: dict, table: dict, chooser) -> di
         if k == 0:                                                     # final answer: natural end
             cut, point = t, "natural"
             break
-        state = {"t": t, "k": k, "h": step["h"], "milestones": step["milestones"], "gt_len": rec["gt_len"], "spent": S,
-                 "B": B, "point": "execute", "next_step": step}
+        state = {"t": t, "k": k, "h": step["h"], "c": c_after, "milestones": step["milestones"], "gt_len": rec["gt_len"],
+                 "spent": S, "B": B, "point": "execute", "next_step": step}
         if not policy.allow(B - S, cap_exec(step, presets), state):   # point B: the proposed calls
             cut, point = t - 1, "execute"
             break
         S += presets["w"] * k                                          # execute the proposed calls
-        h_prev, ms_prev = step["h"], step["milestones"]
+        h_prev, ms_prev, c_prev = step["h"], step["milestones"], c_after
         if t == n:                                                     # the record ended here (ceiling or cap)
             cut, point = t, "end"
             break
@@ -209,7 +210,8 @@ def replay(rec: dict, policy, B: int, presets: dict, table: dict, chooser) -> di
     remaining = max(0, B - S)
     table_t = table[cut]
     h = table_t["settle"]["open_holds_before"]
-    kind = chooser(list(table_t), h, 0, remaining, table_t)
+    c = table_t["settle"].get("confirmed_before", 0)
+    kind = chooser(list(table_t), h, c, remaining, table_t)
     sim = cl.simulate_cut(table_t[kind], remaining)
     utility = bool(table_t[kind]["utility_after"]) if not sim["cut_off"] else bool(table_t[kind].get("utility_before", False))
     oracle_ok = any(table_t[k_]["cost"] <= remaining for k_ in ("verified", "settle") if k_ in table_t)
@@ -220,7 +222,7 @@ def replay(rec: dict, policy, B: int, presets: dict, table: dict, chooser) -> di
             "spent_total": S + sim["spent"],
             "budget_used": (S + sim["spent"]) / B, "dos": bool(sim["cut_off"] and oracle_ok and not utility),
             "partial": bool(not utility and not sim["cut_off"] and kind == "verified" and sim["open_holds_after"] == 0 and h > 0),
-            "h": h, "q": 0}
+            "h": h, "q": c}
 
 
 def oracle_best(rec: dict, B: int, presets: dict, table: dict, name: str = "B4_oracle") -> dict:
